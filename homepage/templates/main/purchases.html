@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<style type="text/css">
+
+	body {
+	  color: rgb(120, 120, 120);
+	}
+
+  form{
+    display: inline-block;
+  }
+
+  .maincolor{
+    color:rgb(79, 159, 207)
+  }
+
+</style>
+{% endblock %}
+ 
+
+{% block content %} 
+        <div class="page-header">
+
+          <div class='row'>
+            <div class='col-md-12'>
+                  <h1 id='mainheader'>Purchases</h1>
+            </div>
+          </div>
+        </div>
+
+
+        <div class='row'>
+
+            {% for p in purchases %}
+                <div class="col-sm-6 col-md-4">
+                  <div class="thumbnail">
+                    <img src="{{MEDIA_URL}}{{p.product.image}}" alt="...">
+                    <div class="caption">
+                      <h3>{{p.product.name}}</h3>
+                      <p>{{p.sale_date}}</p>
+              
+                      {% if p.active_to_download %}
+                        <p><a href="{% url 'downloadpage' p.uuid %}" class="btn btn-primary" role="button">Download</a></p>
+                        <p>{{p.downloads}} Downloads Remaining</p>
+                      {% else %}
+                        <p>No downloads remaining</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+            {% endfor %}
+
+
+        </div>
+{% endblock %}
+
+
+
+
+
+{% block scripts %}
+
+<script type="text/javascript">
+</script>
+
+{% endblock %}
+
+
+

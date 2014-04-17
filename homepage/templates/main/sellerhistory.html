@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<style type="text/css">
+
+	body {
+	  color: rgb(120, 120, 120);
+	}
+
+</style>
+
+{{form.media}}
+
+{% endblock %}
+ 
+
+{% block content %} 
+        <div class="page-header">
+          <div class='row'>
+            <div class='col-md-12'>
+                  <h1 id='mainheader'>Sales History</h1>
+            </div>
+          </div>
+        </div>
+         
+
+
+        <div class='row'>
+
+          {% for sale in sales %}
+
+            {{sale.product.name}} - {{sale.sale_date}}
+
+          {% endfor %}
+
+        </div>
+
+
+{% endblock %}
+
+
+
+
+
+{% block scripts %}
+
+<script type="text/javascript">
+</script>
+
+
+{% endblock %}
+
+
+

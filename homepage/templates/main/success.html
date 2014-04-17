@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<style type="text/css">
+
+	body {
+	  color: rgb(120, 120, 120);
+	}
+
+</style>
+
+{% endblock %}
+ 
+
+{% block content %} 
+        <div class="page-header">
+
+          <div class='row'>
+            <div class='col-md-12'>
+                  <h1 id='mainheader'>Congrats!</h1>
+            </div>
+          </div>
+        </div>
+         
+
+
+        <div class='row'>
+              Congrats on the purchase!  You can download the file below.  An email will also be sent to the provided address with a link to download.  This link will work for 5 downloads.
+
+              <div>Email: {{purchase.email}}</div>
+              <div>Product: {{purchase.product.name}}</div>
+              <div>Price: ${{purchase.product.price}}</div>
+
+
+              <a href="{% url 'downloadpage' purchase.uuid %}" class='btn btn-primary'>
+                Download Now!
+              </a>
+              
+          </div>
+
+
+{% endblock %}
+
+
+
+
+
+{% block scripts %}
+
+<script type="text/javascript">
+</script>
+
+
+{% endblock %}
+
+
+

@@ -1,0 +1,4 @@
+Thank you for downloading {{purchase.product.name}}
+
+Here is the download link - {% url 'downloadpage' purchase.uuid %}
+This link will work until you have used 5 downloads

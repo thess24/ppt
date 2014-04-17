@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<style type="text/css">
+
+	body {
+	  color: rgb(120, 120, 120);
+	}
+
+    .btn-dragndrop{
+        border: 3px dotted gray ;
+        padding: 40px;
+        width: 100%;
+    }
+
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+    }
+    .btn-file input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        font-size: 999px;
+        text-align: right;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        outline: none;
+        background: white;
+        cursor: inherit;
+        display: block;
+    }
+
+</style>
+
+<link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
+<link href="{{ STATIC_URL }}css/jquery.fileupload.css" rel="stylesheet">
+
+
+{{form.media}}
+
+{% endblock %}
+ 
+
+{% block content %} 
+        <div class="page-header">
+          <div class='row'>
+            <div class='col-md-12'>
+                  <h1 id='mainheader'>Add Images</h1>
+            </div>
+          </div>
+        </div>
+         
+
+
+        <div class='row'>
+            <div class='col-md-12'>
+                <div class='col-md-4'>
+                    <h3>{{product.name}}</h3>
+                    <img src="{{MEDIA_URL}}{{product.image}}" width='100%'>
+                </div>
+
+                <div class='col-md-8'>
+                    <h3>Add Slide Images</h3>
+                    <form method='post' enctype="multipart/form-data">{% csrf_token %}
+                        <span class="btn btn-default btn-file btn-dragndrop">
+                            Click or Drag and Drop Here to Add Images
+                            <input id="fileupload" class='btn btn-primary' type="file" name="files[]" data-url="" multiple>
+                        </span>
+                    </form>
+
+
+
+                    <div id='files'></div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+
+
+
+
+{% block scripts %}
+
+
+<script src="{{ STATIC_URL }}js/jquery.ui.widget.js" rel="stylesheet"></script>
+<script src="{{ STATIC_URL }}js/jquery.iframe-transport.js" rel="stylesheet"></script>
+<script src="{{ STATIC_URL }}js/jquery.fileupload.js" rel="stylesheet"></script>
+
+
+   <script>
+        /*jslint unparam: true */
+        /*global window, $ */
+        $(function () {
+            'use strict';
+            // Change this to the location of your server-side upload handler:
+            var url = '/multiupload/';
+            $('#fileupload').fileupload({
+                url: url,
+                dataType: 'json',
+                done: function (e, data) {
+                    $.each(data.result.files, function (index, file) {
+                        $('<p/>').text(file.name).appendTo('#files');
+                        // $('<p/>').html("<img src='" + file.url + "' width=160px/>").appendTo('#files'); //fileupload example code
+                        $('<p/>').html("<img src='" + URL.createObjectURL(data.files[0]) + "' width=160px/>").appendTo('#files'); //getting pics to generate previews
+                    });
+                },
+                progressall: function (e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('#progress .progress-bar').css(
+                        'width',
+                        progress + '%'
+                    );
+                }
+            }).prop('disabled', !$.support.fileInput)
+                .parent().addClass($.support.fileInput ? undefined : 'disabled');
+        });
+
+    </script>
+
+
+{% endblock %}
+
+
+

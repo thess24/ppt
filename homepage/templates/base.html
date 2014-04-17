@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %} SlideRuler {% endblock %}</title>
+    <!-- Bootstrap core CSS -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+		{% block head %}{% endblock %}
+    <style type="text/css">
+          /* Sticky footer styles
+      -------------------------------------------------- */
+      html,
+      body { 
+        height: 100%;
+        /* The html and body elements cannot have any padding or margin. */
+      }
+
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by its height */
+        margin: 0 auto -60px;
+        /* Pad bottom by footer height */
+        padding: 0 0 200px;
+      }
+
+      /* Set the fixed height of the footer here */
+      #footer {
+        height: 160px;
+        background-color: #111111;
+        margin-top: 100px;
+      }
+
+      #bottomfooter {
+        height: 50px;
+        background-color: #000000;
+      }
+
+      #bottomfooter p{
+        margin-top: 20px;
+      }
+      /* Custom page CSS
+      -------------------------------------------------- */
+      /* Not required for template or sticky footer method. */
+
+      .container {
+        width: auto;
+        padding: 0 15px;
+      }
+      .container .credit {
+        margin: 20px 0;
+}</style>
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">SlideRuler</a>
+        </div>
+
+        <div class="collapse navbar-collapse">
+          {% if user.is_authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <span class='glyphicon glyphicon-cog'></span>  {{user.username}}<b class="caret"></b></a>
+              <ul class="dropdown-menu"> 
+                <li class="dropdown-header">Account</li>
+                <li><a href="/accounts/password/change">Change Password</a></li>
+                <li><a href="{% url 'purchases' %}">Purchases</a></li>
+                <li><a href="{% url 'upload' %}">Upload File to Sell</a></li>
+                <li><a href="/accounts/logout">Logout</a></li>
+              </ul>
+            </li>
+            
+          </ul>
+
+          {% else %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/accounts/signup">Signup</a></li>
+            <li><a href="/accounts/login">Sign In</a></li>
+          </ul>
+          {% endif %}
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+      <div class="container">
+		{% block content %}{% endblock %}
+      </div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <div class='row'>
+          <div class='col-md-4'>
+            <p class="credit">
+              <h4>About Us</h4>
+              <ul>
+                  <li>item 1</li>
+                  <li>ithal laksd fsal</li>
+                  <li>tgus s tgk alksdfa</li>
+                  <li>iii ll al sdafja</li>
+                  <li>ilalsd fdsas</li>
+              </ul>
+            </p>
+          </div>
+          <div class='col-md-4'>
+            <p class="credit">
+              <h4>About Us</h4>
+              <ul>
+                  <li>item 1</li>
+                  <li>ithal laksd fsal</li>
+                  <li>tgus s tgk alksdfa</li>
+                  <li>iii ll al sdafja</li>
+                  <li>ilalsd fdsas</li>
+              </ul>
+            </p>
+          </div>
+          <div class='col-md-4'>
+            <p class="credit">
+              <h4>About Us</h4>
+              <ul>
+                  <li>item 1</li>
+                  <li>ithal laksd fsal</li>
+                  <li>tgus s tgk alksdfa</li>
+                  <li>iii ll al sdafja</li>
+                  <li>ilalsd fdsas</li>
+              </ul>
+            </p>
+          </div>
+
+
+        </div><!--end row-->
+      </div><!--end foot container-->
+    </div><!--end footer-->
+    <div id='bottomfooter'>
+      <div class='container'>
+        <p><div class='pull-right'>SlideRuler</div></p>
+      </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script type="text/javascript" src='//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js'></script>
+
+
+{% block scripts %}{% endblock %}
+  </body>
+</html>

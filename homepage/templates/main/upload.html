@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<style type="text/css">
+
+	body {
+	  color: rgb(120, 120, 120);
+	}
+
+</style>
+
+{{form.media}}
+
+{% endblock %}
+ 
+
+{% block content %} 
+        <div class="page-header">
+          <div class='row'>
+            <div class='col-md-12'>
+                  <h1 id='mainheader'>Add Product</h1>
+            </div>
+          </div>
+        </div>
+         
+
+
+        <div class='row'>
+
+            <form method='post' enctype="multipart/form-data">{% csrf_token %}
+              {{form.as_p}}
+            <button type="submit" class='btn btn-primary' name='addproduct'>Submit</button>
+            </form>
+
+        </div>
+
+
+{% endblock %}
+
+
+
+
+
+{% block scripts %}
+
+
+{% endblock %}
+
+
+
