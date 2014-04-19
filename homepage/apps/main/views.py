@@ -1,20 +1,18 @@
 from django.shortcuts import render, get_object_or_404
-from apps.main.models import Product, Purchase, ProductImage, UserCard
-from apps.main.models import ProductForm
-import datetime
+from apps.main.models import Product, Purchase, ProductImage, UserCard, ProductForm
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 import stripe
-import uuid # for random id generation
 from django.core.servers.basehttp import FileWrapper
-from settings.common import MEDIA_ROOT
-import os
-import mimetypes
+from settings.common import MEDIA_ROOT, MAX_IMG_SIZE
+import os, datetime, mimetypes, json, uuid
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
-import json
+from django.views.decorators.csrf import csrf_exempt
+from itertools import groupby
+from collections import defaultdict
 
 
 def index(request):
@@ -38,8 +36,10 @@ def productpage(request, productid):
 	return render(request, 'main/productpage.html', context)
 
 def editproduct(request, productid):
-	# restrict on who can access
-	product = Product.objects.get(id=productid)
+	try: product = Product.objects.get(id=productid)
+	except: raise Http404
+
+	if not product.user_created == request.user: raise Http404
 
 	form = ProductForm(instance=product)
 
@@ -106,11 +106,36 @@ def upload(request):
 	context= {'form':form}
 	return render(request, 'main/upload.html', context)
 
-def sellerhistory(request):
-	sales = Purchase.objects.filter(product__user_created=request.user)
+def salescenter(request):
+	sales = Purchase.objects.filter(product__user_created=request.user).order_by('sale_date')
+	products = Product.objects.filter(user_created=request.user)
 
-	context= {'sales':sales}
-	return render(request, 'main/sellerhistory.html', context)
+	tempmorrislist = []
+	for keydate, group in groupby(sales,lambda x: x.sale_date.date()):
+		# import pdb;pdb.set_trace()
+		# listOfThings = " and ".join(["%s" % thing.product.name for thing in group])
+		# print key
+		thelist = [(x.product.name,x.price) for x in group]
+
+		testDict = defaultdict(int)
+		for key, val in thelist:
+			testDict[key] += val
+
+		tempmorrislist.append( [keydate, testDict] )
+
+	morrislist=[]
+	for i in tempmorrislist:
+		keylist = []
+		string = "{ date: '"+ str(i[0])+"'"
+		for j,k in i[1].items():
+			string += ','+j+':'+str(k)
+		string +='},'
+		morrislist.append(string)
+
+
+
+	context= {'sales':sales, 'products':products, 'morrislist':morrislist}
+	return render(request, 'main/salescenter.html', context)
 
 def category(request, category):
 	products = Product.objects.filter(category__iexact=category.lower())
@@ -121,7 +146,6 @@ def charge(request):
 	# Set your secret key: remember to change this to your live secret key in production
 	# See your keys here https://manage.stripe.com/account
 	stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
-
 
 	token = request.POST.get('stripeToken')
 	email = request.POST.get('stripeEmail')
@@ -199,14 +223,20 @@ def charge(request):
 
 def multiupload(request):
 	response = {'files': []}
+	try: 
+		productid = request.POST['productid']
+		print productid
+		p = Product.objects.get(id=productid)
+	except: raise Http404
+
 	# Loop through our files in the files list uploaded
 	for image in request.FILES.getlist('files[]'):
-		p = Product.objects.get(id=1)
-
+		if image._size > MAX_IMG_SIZE:
+			continue  #probably should send error here
+		
 		new_image = ProductImage(product=p, image=image)
 		# Save the image using the model's ImageField settings
 		# filename, ext = os.path.splitext(image.name)
-		# new_image.picture.save("%s-%s%s" % (image.name, datetime.datetime.now(), ext), image)
 		new_image.save()
 		# Save output for return as JSON
 		response['files'].append({
@@ -214,13 +244,28 @@ def multiupload(request):
 			'size': '%d' % image.size,
 			# 'url': '%s' % new_image.image.url,
 			# 'thumbnailUrl': '%s' % new_image.image.url,
-			'deleteUrl': '\/image\/delete\/%s' % image.name,
+			'deleteUrl': '/image/delete/%s/' % new_image.id,
 			"deleteType": 'DELETE'
 		})
 
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
 def uploadimages(request, productid):
-	product = Product.objects.get(id=productid)
-	context= {'product':product}	
+	try: product = Product.objects.get(id=productid)
+	except: raise Http404
+
+	if not product.user_created == request.user: raise Http404
+
+	productimages = ProductImage.objects.filter(product=product)
+
+	context= {'product':product, 'productimages':productimages}
 	return render(request, 'main/uploadimages.html', context)
+
+@csrf_exempt
+def deleteimage(request, imageid):
+	try: image = ProductImage.objects.get(id=imageid)
+	except: raise Http404
+
+	image.delete()
+
+	return HttpResponse('')

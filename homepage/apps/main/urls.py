@@ -13,7 +13,8 @@ urlpatterns = patterns('',
 	url(r'^charge/$', views.charge, name='charge'),
 	url(r'^upload/$', views.upload, name='upload'),
 	url(r'^uploadimages/(?P<productid>.+)/$', views.uploadimages, name='uploadimages'),
-	url(r'^sellerhistory/$', views.sellerhistory, name='sellerhistory'),
+	url(r'^image/delete/(?P<imageid>.+)/$', views.deleteimage, name='deleteimage'),
+	url(r'^salescenter/$', views.salescenter, name='salescenter'),
 	url(r'^c/(?P<category>.+)/$', views.category, name='category'),
 	url(r'^multiupload/$', views.multiupload, name='multiupload'),
 
@@ -27,21 +28,19 @@ urlpatterns = patterns('',
 
 # option to download now or create account (if not logged in) -- modal 
 # fix price and sale price
-# make page for seller history
 
 
 ########## OPTIONAL ############
-# video embed optional
-# search
 # view past viewed
 
 
 
-########### IMPORTANT ###########
+########### IMPORTANT ##########
 
-# flow process for uploads -- first info, they once submitted, do images
-# error handling for imagesupload
-# form errors - file restriction, size, type for multiupload
+# front end file size checking
+# form errors - number of images for multiupload
+# front page to show categories
+# search
 
 
 #### stripe

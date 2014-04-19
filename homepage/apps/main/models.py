@@ -6,6 +6,7 @@ from taggit.managers import TaggableManager
 from tinymce import models as tinymce_models
 from tinymce.widgets import TinyMCE
 import os
+from settings.common import MAX_FILE_SIZE, MAX_IMG_SIZE, ALLOWED_FILE_TYPES, ALLOWED_IMG_TYPES
 
 class Product(models.Model):
 
@@ -22,7 +23,7 @@ class Product(models.Model):
 	description = tinymce_models.HTMLField()
 	purchases = models.IntegerField(default=0) 
 	product_file = models.FileField(upload_to='files')
-	price = models.DecimalField(max_digits=5, decimal_places=2)
+	price = models.DecimalField(max_digits=5, decimal_places=2) #make bigger
 	sale_price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
 	image = models.ImageField(upload_to='products')
 	category = models.CharField(max_length=40, choices=CATEGORIES)  #change to full amount
@@ -58,7 +59,7 @@ class Purchase(models.Model):
 	downloads = models.IntegerField()
 	email = models.EmailField()
 	uuid = models.CharField(max_length=100)
-	price = models.DecimalField(max_digits=5, decimal_places=2)
+	price = models.DecimalField(max_digits=5, decimal_places=2) #make bigger
 
 	def active_to_download(self):
 		if self.downloads <=0: return False
@@ -92,17 +93,26 @@ class ProductForm(ModelForm):
 		cleaned_data = super(ProductForm, self).clean()
 		image = cleaned_data.get('image',False)
 		product_file = cleaned_data.get('product_file',False)
+		product_name = cleaned_data.get('name',False)
+
+		pname = Product.objects.filter(name=product_name)
+		if pname:
+			raise ValidationError("That name already exists")
 
 		if image:
-			if image._size > 0.5*1024*1024:
-				raise ValidationError("Image too large - must be less than 500kb")
+			if image._size > MAX_IMG_SIZE:
+				raise ValidationError("Image too large - must be less than 300kb")
+
+			imgtype = image.name.split(".")[-1]
+			if imgtype not in ALLOWED_IMG_TYPES:
+				raise ValidationError("Must by a jpg, jpeg, gif, or png")
 
 		if product_file:
 			filetype = product_file.name.split(".")[-1]
-			if filetype not in ['ppt','pptx','potx','thmx']:
+			if filetype not in ALLOWED_FILE_TYPES:
 				raise ValidationError("Must by a ppt, potx, or pptx")
 
-			if product_file._size > 10*1024*1024:
+			if product_file._size > MAX_FILE_SIZE:
 				raise ValidationError("File too large - must be less than 4mb")
 
 		return cleaned_data

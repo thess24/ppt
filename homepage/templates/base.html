@@ -10,6 +10,11 @@
     <!-- Bootstrap core CSS -->
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 
+
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+
+
     <!-- Custom styles for this template -->
 		{% block head %}{% endblock %}
     <style type="text/css">
@@ -18,9 +23,13 @@
       html,
       body { 
         height: 100%;
+        font-family: 'Open Sans', sans-serif;
         /* The html and body elements cannot have any padding or margin. */
       }
 
+      form{
+        display: inline-block;
+      }
       /* Wrapper for page content to push down footer */
       #wrap {
         min-height: 100%;
@@ -57,7 +66,47 @@
       }
       .container .credit {
         margin: 20px 0;
-}</style>
+      }
+
+      .btn-file {
+          position: relative;
+          overflow: hidden;
+      }
+      .btn-file input[type=file] {
+          position: absolute;
+          top: 0;
+          right: 0;
+          min-width: 100%;
+          min-height: 100%;
+          font-size: 999px;
+          text-align: right;
+          filter: alpha(opacity=0);
+          opacity: 0;
+          outline: none;
+          background: white;
+          cursor: inherit;
+          display: block;
+      }
+
+    .banner{
+      right: 10px;
+      top: 10px;
+      margin: 5px;
+      background-color: rgb(200, 0, 0);
+      color:white;
+      font-weight: bold;
+      position: absolute;
+      text-align: center;
+      padding: 8px;
+
+    }
+
+    .imgbox{
+      position: relative;
+    }
+
+  
+  </style>
   </head>
 
   <body>
@@ -86,6 +135,7 @@
                 <li><a href="/accounts/password/change">Change Password</a></li>
                 <li><a href="{% url 'purchases' %}">Purchases</a></li>
                 <li><a href="{% url 'upload' %}">Upload File to Sell</a></li>
+                <li><a href="{% url 'salescenter' %}">Sales Center</a></li>
                 <li><a href="/accounts/logout">Logout</a></li>
               </ul>
             </li>
@@ -115,37 +165,22 @@
           <div class='col-md-4'>
             <p class="credit">
               <h4>About Us</h4>
+              <p>SlideRuler is a Chicago company that is marketplace for beautiful powerpoint templates, icons and graphics. </p>
+            </p>
+          </div>
+          <div class='col-md-4'>
+            <p class="credit">
+              <h4>Share and Connect</h4>
               <ul>
-                  <li>item 1</li>
-                  <li>ithal laksd fsal</li>
-                  <li>tgus s tgk alksdfa</li>
-                  <li>iii ll al sdafja</li>
-                  <li>ilalsd fdsas</li>
+                  <li>Twitter</li>
+                  <li>Facebook</li>
               </ul>
             </p>
           </div>
           <div class='col-md-4'>
             <p class="credit">
-              <h4>About Us</h4>
-              <ul>
-                  <li>item 1</li>
-                  <li>ithal laksd fsal</li>
-                  <li>tgus s tgk alksdfa</li>
-                  <li>iii ll al sdafja</li>
-                  <li>ilalsd fdsas</li>
-              </ul>
-            </p>
-          </div>
-          <div class='col-md-4'>
-            <p class="credit">
-              <h4>About Us</h4>
-              <ul>
-                  <li>item 1</li>
-                  <li>ithal laksd fsal</li>
-                  <li>tgus s tgk alksdfa</li>
-                  <li>iii ll al sdafja</li>
-                  <li>ilalsd fdsas</li>
-              </ul>
+              <h4>Thank you!</h4>
+              <p>Thank you for visiting the site.  If you have any feeback, comments, or complaints, don't hesitate to contact us below!</p>
             </p>
           </div>
 

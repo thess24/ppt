@@ -316,3 +316,9 @@ TINYMCE_DEFAULT_CONFIG = {
 'theme_advanced_buttons2': "",
 'theme_advanced_buttons3': "",
 }
+
+
+MAX_FILE_SIZE = 5*1000*1000
+MAX_IMG_SIZE = 0.3*1000*1000
+ALLOWED_FILE_TYPES = ['ppt','pptx','potx','thmx', 'PPT', 'PPTX', 'POTX', 'THMX']
+ALLOWED_IMG_TYPES = ['jpg', 'jpeg', 'gif', 'png', 'JPG', 'JPEG', 'GIF', 'PNG']

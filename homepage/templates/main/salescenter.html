@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+<style type="text/css">
+
+</style>
+
+<link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+
+{{form.media}}
+
+{% endblock %}
+ 
+
+{% block content %} 
+        <div class="page-header">
+          <div class='row'>
+            <div class='col-md-12'>
+                  <h1 id='mainheader'>Sales History</h1>
+            </div>
+          </div>
+        </div>
+         
+
+
+        <div class='row'>
+          <div class='col-md-12'>
+          <div id="myfirstchart" style="height: 300px;"></div>          
+          </div>
+        </div>
+  
+        <div class='row'>
+          <div class='col-md-12'>
+            <div class='col-md-4'></div>
+            <div class='col-md-4'></div>
+            <div class='col-md-4'></div>
+          </div>
+        </div>
+
+        <div class='row'>
+
+
+
+            {% for p in products %}
+            <div class='col-md-6'>
+             <div class="panel panel-default">
+
+              <div class="panel-heading">
+                <h3 class="panel-title"><a href="{% url 'productpage' p.id %}">{{p.name}}</a></h3>
+              </div>
+
+              <div class="panel-body">
+                <div class='row'>
+                  <div class='col-md-12'>
+                      <div class='col-md-5'>
+                        <img src="{{MEDIA_URL}}{{p.image}}" width="100%">
+                        <div class='windowprice'>${{p.price}}</div>
+                      <span><a href="{% url 'editproduct' p.id %}" class="btn btn-primary btn-xs" role="button">Edit Page</a></span>
+                      <span><a href="{% url 'uploadimages' p.id %}" class="btn btn-primary btn-xs" role="button">Add Images</a></span>
+                      </div>
+                      <div class='col-md-7'>
+                        <h5>Total Sales: $1200 (100 items)</h5>
+                        <h5>Monthly Sales: $100 (15 items)</h5>
+                      </div>
+                      
+                  </div>
+                </div>
+              </div>
+
+             </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+
+{% endblock %}
+
+
+
+
+
+{% block scripts %}
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
+
+<script type="text/javascript">
+
+new Morris.Line({
+  // ID of the element in which to draw the chart.
+  element: 'myfirstchart',
+  // Chart data records -- each entry in this array corresponds to a point on
+  // the chart.
+  data: [
+  {% for l  in morrislist %}
+              {{l|safe}}
+  {% endfor %}
+  ],
+  xkey: 'date',
+  ykeys: ['fafds','first'],
+
+  labels: ['fafds ','first'],
+  xLabels: 'day',
+  preUnits:'$'
+});
+
+
+</script>
+
+{% endblock %}
+
+
+

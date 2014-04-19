@@ -4,34 +4,23 @@
 {% block head %}
 <style type="text/css">
 
-	body {
-	  color: rgb(120, 120, 120);
-	}
-
     .btn-dragndrop{
         border: 3px dotted gray ;
         padding: 40px;
         width: 100%;
     }
 
-    .btn-file {
-        position: relative;
-        overflow: hidden;
+    #files{
+        padding: 20px;
     }
-    .btn-file input[type=file] {
-        position: absolute;
-        top: 0;
-        right: 0;
-        min-width: 100%;
-        min-height: 100%;
-        font-size: 999px;
-        text-align: right;
-        filter: alpha(opacity=0);
-        opacity: 0;
-        outline: none;
-        background: white;
-        cursor: inherit;
-        display: block;
+
+    .gallerybox form{
+        width: 165px;
+        display: inline-block;
+    }
+
+    form{
+        display: inline-block;
     }
 
 </style>
@@ -69,12 +58,22 @@
                         <span class="btn btn-default btn-file btn-dragndrop">
                             Click or Drag and Drop Here to Add Images
                             <input id="fileupload" class='btn btn-primary' type="file" name="files[]" data-url="" multiple>
+                            <input type='hidden' name='productid' value='{{product.id}}'>
                         </span>
                     </form>
 
+                    <div class='col-md-12'>
+                        <div id='files'>
+                            {% for i in productimages %}
+                            <span class='gallerybox'>
+                                <form method='post' class='imgbox' action='{% url "deleteimage" i.id %}'><img src='{{MEDIA_URL}}{{i.image}}' width='160px'/><button type='submit' class='btn banner' style='display:none'>Del</button>
+                                </form>
+                            </span>
+                            {% endfor %}
+                        </div>
+                    </div>
 
 
-                    <div id='files'></div>
                 </div>
             </div>
         </div>
@@ -95,20 +94,29 @@
 
 
    <script>
-        /*jslint unparam: true */
-        /*global window, $ */
+
+$(function () {
+    $('#fileupload').bind('change', function() {
+      //this.files[0].size gets the size of your file.
+    var files = $(this).get(0).files;
+    for (i = 0; i < files.length; i++)
+    {
+       if (files[i].size > 30000){
+
+       }
+    }
+    });
+});
+
+
         $(function () {
-            'use strict';
-            // Change this to the location of your server-side upload handler:
             var url = '/multiupload/';
             $('#fileupload').fileupload({
                 url: url,
                 dataType: 'json',
                 done: function (e, data) {
                     $.each(data.result.files, function (index, file) {
-                        $('<p/>').text(file.name).appendTo('#files');
-                        // $('<p/>').html("<img src='" + file.url + "' width=160px/>").appendTo('#files'); //fileupload example code
-                        $('<p/>').html("<img src='" + URL.createObjectURL(data.files[0]) + "' width=160px/>").appendTo('#files'); //getting pics to generate previews
+                        $('<span class="gallerybox"/>').html("<form method='post' class='imgbox' action='"+ file.deleteUrl+"'><img src='" + URL.createObjectURL(data.files[0]) + "' width='160px'/><button type='submit' class='btn banner' style='display:none'>Del</button></form>").appendTo('#files'); //getting pics to generate previews
                     });
                 },
                 progressall: function (e, data) {
@@ -121,6 +129,36 @@
             }).prop('disabled', !$.support.fileInput)
                 .parent().addClass($.support.fileInput ? undefined : 'disabled');
         });
+
+
+$(function () {
+    $(document).on(  //on method needed because ajax dynamically loads content
+        'mouseenter','.gallerybox', function() {
+        $(this).find('button').fadeIn();
+      });
+
+    $(document).on(
+        'mouseleave','.gallerybox', function() {
+        $(this).find('button').fadeOut();
+      });
+});
+
+
+$(function () {
+    $(document).on('submit', '.imgbox', function() { // catch the form's submit event
+        myform = $(this);
+        $.ajax({ 
+            data: myform.serialize(), // get the form data
+            type: "POST", 
+            url: myform.attr('action'), // the file to call
+            context: this,  // so we can use this is success--its not auto passed on
+            success: function(json) { 
+              $(this).closest('.gallerybox').remove();
+            }
+        });
+        return false;
+    });
+});
 
     </script>
 
