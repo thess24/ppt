@@ -5,14 +5,30 @@
 <style type="text/css">
 
   .mainpic{
-    padding: 30px;
+    padding: 5px;
   }
 
   #descarea{
     margin-top: 40px;
   }
 
+.simproduct{
+  padding-bottom:10px;
+}
 
+.simproduct h4{
+  border-bottom: 1px solid gray;
+  padding: 3px;
+}
+
+.bigprice{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 3em;
+  padding: 10px;
+  background-color: rgb(227, 255, 224);
+}
 
 </style>
 
@@ -25,7 +41,8 @@
 
           <div class='row'>
             <div class='col-md-12'>
-                  <h1 id='mainheader'>{{product.name}}</h1>
+                  <h1 id='mainheader'>{{product.name|capfirst}}</h1>
+                  <h4>Created on {{product.added_date}}</h4>
             </div>
           </div>
         </div>
@@ -33,45 +50,50 @@
 
 
         <div class='row'>
-              <div class='col-md-8'>
-
-                <div class="panel panel-default">
-                  <div class="panel-body">
-                      <div class="fotorama mainpic" data-nav="thumbs" data-allowfullscreen="true" data-fit='scaledown' data-width="100%" data-ratio="800/600">          
-                        <a href="{{MEDIA_URL}}{{product.image}}" data-caption='main'></a>
-
-                        {% for p in productimages %}
-                        <a href="{{MEDIA_URL}}{{p.image}}" data-caption='{{p.text}}'></a>
-                        {% endfor %}
+              <div class='col-md-9'>
 
 
-                      </div>
+                    <div class='row'>
+                      <div class='col-md-12'>
 
-                    {% for tag in product.tags.all %}
-                    <span class="label label-default" style='font-size:0.8em'>{{tag.name}}</span>
-                    {% endfor %}
 
-                    <div id='descarea'>{{product.description|safe}}</div>
-                  </div>
-                </div>
+                        <div class='col-md-6'>
+                             <div class="fotorama mainpic" data-nav="thumbs" data-allowfullscreen="true" data-fit='scaledown' data-width="100%" data-ratio="800/600">          
+                              <a href="{{MEDIA_URL}}{{product.image}}"></a>
+                              {% for p in productimages %}
+                              <a href="{{MEDIA_URL}}{{p.image}}"></a>
+                              {% endfor %}
+                              </div>
+
+                        </div>
+                        <div class='col-md-6'>
+                              <h2>{{product.name|capfirst}}</h2>
+                              <span class='pull-right bigprice'>${{product.price}}</span>
+                              {% for tag in product.tags.all %}
+                              <span class="label label-default" style='font-size:0.8em'>{{tag.name}}</span>
+                              {% endfor %}
+                              <div style= 'padding-top: 3px;'>Category:<a href="{% url 'category' product.category %}">{{product.category}}</a></div>
+                              <div id='descarea'>{{product.description|safe}}</div>
+                        </div>
+
+                      </div><!--end col 12-->
+                    </div><!--end row-->
+
 
 
               </div>
 
 
-              <div class='col-md-4'>
+              <div class='col-md-3'>
 
-                <div class="panel panel-default">
-                  <div class="panel-heading">
-                    <h3 class="panel-title">Buy Now!</h3>
-                  </div>
-                  <div class="panel-body">
+                <!-- <div class="panel panel-default"> -->
+                  <!-- <div class="panel-body"> -->
 
                 {% if user.is_authenticated %}
-                      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style='width:100%'>
                         Buy now!
                       </button>
-                      <div>Clicking this button will not bill you.</div>
+                      <div style='margin-top:5px; font-size:.8em'>Clicking this button will not bill you.</div>
                 {% else %}
                 <!-- <button id="customButton">Purchase</button> -->
                       <form action="{% url 'charge' %}" method="POST">{% csrf_token %}
@@ -92,27 +114,22 @@
 
 
                       
-                  </div>
-                </div>
+                  <!-- </div>
+                </div> -->
 
-
-                <div class="panel panel-default">
-                  <div class="panel-heading">
+                <hr>
                     <h3 class="panel-title">Similar</h3>
-                  </div>
 
-                  <div class="panel-body">
                     {% for i in similarproducts %}
-                        <div>
-                          <div><a href="{% url 'productpage' i.id %}">{{i.name}}</a></div>
+                        <div class='simproduct'>
+                          <h4><a href="{% url 'productpage' i.id %}">{{i.name|capfirst}}</a></h4>
                           <img src="{{MEDIA_URL}}{{i.image}}" width='100%'>
                         </div>
 
                     {% empty %}
                     <div>This is a one of a kind!</div>
                     {% endfor %}
-                  </div>
-                </div>
+   
 
 
             </div> <!--end md col 4-->

@@ -7,26 +7,39 @@ from tinymce import models as tinymce_models
 from tinymce.widgets import TinyMCE
 import os
 from settings.common import MAX_FILE_SIZE, MAX_IMG_SIZE, ALLOWED_FILE_TYPES, ALLOWED_IMG_TYPES
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field
+from crispy_forms.bootstrap import PrependedText, StrictButton
+
 
 class Product(models.Model):
 
 	CATEGORIES = (
-	('Marketing', 'Marketing'),
-	('Business', 'Business'),
-	('Maps', 'Maps'),
-	('Graphics', 'Graphics'),
+	('Maps','Maps'),
+	('Business','Business'),
+	('Finance','Finance'),
+	('Marketing','Marketing'),
+	('Health/Fitness','Health/Fitness'),
+	('Real Estate','Real Estate'),
+	('Science','Science'),
+	('Maps','Sports'),
+	('Technology','Technology'),
+	('Education','Education'),
+	('Design','Design'),
+	('Nature','Nature'),
 	)
+ 
+
 
 	name = models.CharField(max_length=140)
 	added_date = models.DateTimeField(auto_now_add=True)
-	# description = models.TextField(max_length=10000, blank=True, null=True)
 	description = tinymce_models.HTMLField()
 	purchases = models.IntegerField(default=0) 
 	product_file = models.FileField(upload_to='files')
-	price = models.DecimalField(max_digits=5, decimal_places=2) #make bigger
-	sale_price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+	price = models.DecimalField(max_digits=6, decimal_places=2)
+	sale_price = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
 	image = models.ImageField(upload_to='products')
-	category = models.CharField(max_length=40, choices=CATEGORIES)  #change to full amount
+	category = models.CharField(max_length=40, choices=CATEGORIES)
 	pages = models.IntegerField(blank=True,null=True)
 	user_created = models.ForeignKey(User)
 	active = models.BooleanField(default=False)
@@ -59,7 +72,7 @@ class Purchase(models.Model):
 	downloads = models.IntegerField()
 	email = models.EmailField()
 	uuid = models.CharField(max_length=100)
-	price = models.DecimalField(max_digits=5, decimal_places=2) #make bigger
+	price = models.DecimalField(max_digits=6, decimal_places=2)
 
 	def active_to_download(self):
 		if self.downloads <=0: return False
@@ -83,7 +96,7 @@ class UserCard(models.Model):
 
 
 class ProductForm(ModelForm):
-	description = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 10}))
+	description = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 15}))
 
 	class Meta:
 		model = Product
@@ -116,3 +129,28 @@ class ProductForm(ModelForm):
 				raise ValidationError("File too large - must be less than 4mb")
 
 		return cleaned_data
+
+	def __init__(self, *args, **kwargs):
+		super(ProductForm, self).__init__(*args, **kwargs)
+		self.helper= FormHelper()
+		self.helper.form_class = 'form-horizontal'
+		self.helper.label_class = 'col-lg-3'
+		self.helper.field_class = 'col-lg-9'
+		self.helper.layout = Layout(
+				'name' ,
+				'description' ,
+				PrependedText('price', '$'),
+				'product_file' ,
+				'image' ,
+				'category' ,
+				'pages' ,
+				'tags' ,
+				StrictButton('Continue >', name='addproduct', type='submit',css_class='btn-primary btn-lg'),
+		)
+
+
+
+class ProductEditForm(ProductForm):
+	class Meta:
+		model = Product
+		exclude = ['purchases', 'user_created', 'active', 'new', 'popular', 'featured','name','pages','product_file']

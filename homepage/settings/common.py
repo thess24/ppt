@@ -208,7 +208,7 @@ THIRD_PARTY_APPS = (
 
     # Static file management:
     'compressor',
-
+    'crispy_forms',
     'taggit',
     'tinymce',
     # Asynchronous task queue:

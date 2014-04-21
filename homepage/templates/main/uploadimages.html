@@ -25,7 +25,6 @@
 
 </style>
 
-<link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
 <link href="{{ STATIC_URL }}css/jquery.fileupload.css" rel="stylesheet">
 
 
@@ -33,18 +32,23 @@
 
 {% endblock %}
  
-
+ 
 {% block content %} 
         <div class="page-header">
           <div class='row'>
             <div class='col-md-12'>
-                  <h1 id='mainheader'>Add Images</h1>
+                  <h1 id='mainheader'>Add Images <small>Step 2 of 2</small></h1>
             </div>
           </div>
-        </div>
+        </div> 
          
-
-
+        <div class='row'>
+            <h4>Add up to 30 images here as a preview for the presentation.</h4> 
+                <p>To create the images, go to "Save As" in Powerpoint, and save all the slides as Jpegs.  It will give you the option to save all the slides seperatly.  Hit Yes to accept this.</p>
+                <br>
+                <h4><i>Selected images are automatically uploaded.  No need to save them</i></h4>
+            <hr>
+        </div>
         <div class='row'>
             <div class='col-md-12'>
                 <div class='col-md-4'>
@@ -54,7 +58,7 @@
 
                 <div class='col-md-8'>
                     <h3>Add Slide Images</h3>
-                    <form method='post' enctype="multipart/form-data">{% csrf_token %}
+                    <form method='post' enctype="multipart/form-data" style='width:100%'>{% csrf_token %}
                         <span class="btn btn-default btn-file btn-dragndrop">
                             Click or Drag and Drop Here to Add Images
                             <input id="fileupload" class='btn btn-primary' type="file" name="files[]" data-url="" multiple>
@@ -66,7 +70,10 @@
                         <div id='files'>
                             {% for i in productimages %}
                             <span class='gallerybox'>
-                                <form method='post' class='imgbox' action='{% url "deleteimage" i.id %}'><img src='{{MEDIA_URL}}{{i.image}}' width='160px'/><button type='submit' class='btn banner' style='display:none'>Del</button>
+                                <form method='post' class='imgbox' action='{% url "deleteimage" i.id %}'><img src='{{MEDIA_URL}}{{i.image}}' width='160px'/>
+                                    <button type='submit' class='btn banner' style='display:none'>
+                                        <span class='glyphicon glyphicon-trash'> Delete</span>
+                                    </button>
                                 </form>
                             </span>
                             {% endfor %}

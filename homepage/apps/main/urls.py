@@ -16,34 +16,66 @@ urlpatterns = patterns('',
 	url(r'^image/delete/(?P<imageid>.+)/$', views.deleteimage, name='deleteimage'),
 	url(r'^salescenter/$', views.salescenter, name='salescenter'),
 	url(r'^c/(?P<category>.+)/$', views.category, name='category'),
+	url(r'^search/$', views.search, name='search'),
 	url(r'^multiupload/$', views.multiupload, name='multiupload'),
+
+	url(r'^howbuyingworks/$', views.howbuyingworks, name='howbuyingworks'),
+	url(r'^howsellingworks/$', views.howsellingworks, name='howsellingworks'),
+	url(r'^tos/$', views.tos, name='tos'),
+	url(r'^privacypolicy/$', views.privacypolicy, name='privacypolicy'),
+	url(r'^faq/$', views.faq, name='faq'),
 
 
 	(r'^media/(?P<path>.*)$', 'django.views.static.serve',
 		{'document_root': MEDIA_ROOT}),
 )
 
-
-
+##########  OPTIONAL #######
 
 # option to download now or create account (if not logged in) -- modal 
 # fix price and sale price
-
-
-########## OPTIONAL ############
-# view past viewed
+# ability to save presentations
+# pagination
 
 
 
 ########### IMPORTANT ##########
-
 # front end file size checking
-# form errors - number of images for multiupload
-# front page to show categories
-# search
+# sort presentations by most recent, downloads(popular), featured
+# salescenter fix -- weekly sales, monthly sales (hide graph for now)
+# get stripe connect to work
+
 
 
 #### stripe
 # error handling
 # make sure only one card on file at a time - display what the card is
 # make it a marketplace and take percentage, not one sided
+
+
+
+
+
+
+
+# maps
+# business
+# health/fitness
+# food
+# real estate
+# science
+# sports
+# technology
+# education
+# design
+# nature
+
+
+# Monday
+# --stripe connect
+
+# Tuesday
+# --testing and socialmedia
+
+# Wednesday
+# --on heroku

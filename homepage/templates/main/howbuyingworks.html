@@ -4,32 +4,31 @@
 {% block head %}
 <style type="text/css">
 
-	body {
-	  color: rgb(120, 120, 120);
-	}
+
+  .well{
+    background-color: #FAFAFA;
+  }
+
 
 </style>
-
-{{form.media}}
-
 {% endblock %}
  
 
 {% block content %} 
         <div class="page-header">
+
           <div class='row'>
             <div class='col-md-12'>
-                  <h1 id='mainheader'>Edit Product</h1>
+                  <h1 id='mainheader'>How Buying Works</h1>
             </div>
           </div>
         </div>
-          
 
 
         <div class='row'>
-                                {% load crispy_forms_tags %}
-                                  {% crispy form %}
+          Buying is super simple.  Click on what you want, 
         </div>
+
 
 
 {% endblock %}
@@ -42,7 +41,6 @@
 
 <script type="text/javascript">
 </script>
-
 
 {% endblock %}
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from apps.main.models import Product, Purchase, ProductImage, UserCard, ProductForm
+from apps.main.models import Product, Purchase, ProductImage, UserCard, ProductForm,ProductEditForm
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -13,10 +13,10 @@ from django.template import Context
 from django.views.decorators.csrf import csrf_exempt
 from itertools import groupby
 from collections import defaultdict
-
+from django.db.models import Sum
 
 def index(request):
-	products = Product.objects.all()
+	products = Product.objects.filter(active=True)
 	context= {'products':products}
 	return render(request, 'main/index.html', context)
 
@@ -35,19 +35,21 @@ def productpage(request, productid):
 	context= {'product':product, 'productimages':productimages, 'stripeprice':stripeprice, 'similarproducts':similarproducts}
 	return render(request, 'main/productpage.html', context)
 
+@login_required
 def editproduct(request, productid):
 	try: product = Product.objects.get(id=productid)
 	except: raise Http404
 
 	if not product.user_created == request.user: raise Http404
 
-	form = ProductForm(instance=product)
+	form = ProductEditForm(instance=product)
 
 	if request.method=='POST':
 		if 'addproduct' in request.POST:
-			form = ProductForm(request.POST, request.FILES)
+			form = ProductEditForm(request.POST, request.FILES)
 			if form.is_valid():
 				instance = form.save(commit=False)
+				instance.user_created=request.user
 				instance.save()
 				form.save_m2m()
 
@@ -56,6 +58,7 @@ def editproduct(request, productid):
 	context= {'product':product, 'form':form}
 	return render(request, 'main/editproduct.html', context)
 
+@login_required
 def purchases(request):
 	purchases = Purchase.objects.filter(user=request.user)
 
@@ -106,15 +109,16 @@ def upload(request):
 	context= {'form':form}
 	return render(request, 'main/upload.html', context)
 
+@login_required
 def salescenter(request):
 	sales = Purchase.objects.filter(product__user_created=request.user).order_by('sale_date')
-	products = Product.objects.filter(user_created=request.user)
+	products = Product.objects.filter(user_created=request.user).annotate(Sum('purchase__price'))
+	monthly = Product.objects.filter(user_created=request.user,added_date__gte=datetime.datetime.now()- datetime.timedelta(days=30)).annotate(Sum('purchase__price'))
+	weeklyproducts = Product.objects.filter(user_created=request.user,added_date__gte=datetime.datetime.now()- datetime.timedelta(days=7)).annotate(Sum('purchase__price'))
+	print monthly[0].purchase__price__sum  #need to do nested loops in template
 
 	tempmorrislist = []
 	for keydate, group in groupby(sales,lambda x: x.sale_date.date()):
-		# import pdb;pdb.set_trace()
-		# listOfThings = " and ".join(["%s" % thing.product.name for thing in group])
-		# print key
 		thelist = [(x.product.name,x.price) for x in group]
 
 		testDict = defaultdict(int)
@@ -138,9 +142,24 @@ def salescenter(request):
 	return render(request, 'main/salescenter.html', context)
 
 def category(request, category):
-	products = Product.objects.filter(category__iexact=category.lower())
-	context= {'products':products}
-	return render(request, 'main/index.html', context)
+	products = Product.objects.filter(category__iexact=category.lower(),active=True)
+
+	if not products: raise Http404
+
+	context= {'products':products, 'category':category}
+	return render(request, 'main/category.html', context)
+
+def search(request):
+	if request.method=='GET':
+		if request.GET.get('searchstring'):
+			searchstring = request.GET.get('searchstring')
+
+	products = Product.objects.filter(tags__name__in=[searchstring],active=True)
+
+	header = 'Search: '+searchstring
+
+	context= {'products':products, 'category':header}
+	return render(request, 'main/category.html', context)
 
 def charge(request):
 	# Set your secret key: remember to change this to your live secret key in production
@@ -206,6 +225,9 @@ def charge(request):
 	purchase.save()
 
 
+	product.purchases+=1
+	product.save()
+
 	# send email
 	plaintext = get_template('downloademail.txt')
 	htmly     = get_template('downloademail.html')
@@ -221,16 +243,26 @@ def charge(request):
 	context= {'purchase':purchase}
 	return render(request, 'main/success.html', context)
 
+@login_required
 def multiupload(request):
 	response = {'files': []}
 	try: 
 		productid = request.POST['productid']
-		print productid
+		p = Product.objects.get(id=productid)
+	except: raise Http404  
+
+	try: 
+		productid = request.POST['productid']
 		p = Product.objects.get(id=productid)
 	except: raise Http404
 
+	if not p.user_created == request.user: raise Http404  #this is fine
+
+	images = ProductImage.objects.filter(product=p).count()
+	if int(images)>15: print 'hey 404'  #send response of too many images
+
 	# Loop through our files in the files list uploaded
-	for image in request.FILES.getlist('files[]'):
+	for image in request.FILES.getlist('files[]'):  #this only has one file as of now
 		if image._size > MAX_IMG_SIZE:
 			continue  #probably should send error here
 		
@@ -250,6 +282,7 @@ def multiupload(request):
 
 	return HttpResponse(json.dumps(response), content_type='application/json')
 
+@login_required
 def uploadimages(request, productid):
 	try: product = Product.objects.get(id=productid)
 	except: raise Http404
@@ -269,3 +302,18 @@ def deleteimage(request, imageid):
 	image.delete()
 
 	return HttpResponse('')
+
+def howbuyingworks(request):
+	return render(request, 'main/howbuyingworks.html')	
+
+def howsellingworks(request):
+	return render(request, 'main/howsellingworks.html')	
+
+def tos(request):
+	return render(request, 'main/howsellingworks.html')	
+
+def privacypolicy(request):
+	return render(request, 'main/howsellingworks.html')
+
+def faq(request):
+	return render(request, 'main/howsellingworks.html')	

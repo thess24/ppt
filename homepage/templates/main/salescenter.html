@@ -4,12 +4,16 @@
 {% block head %}
 <style type="text/css">
 
+.saleimg{
+    padding-bottom: 5px;
+
+}
+
 </style>
 
 <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
 
 {{form.media}}
-
 {% endblock %}
  
 
@@ -53,14 +57,14 @@
               <div class="panel-body">
                 <div class='row'>
                   <div class='col-md-12'>
-                      <div class='col-md-5'>
-                        <img src="{{MEDIA_URL}}{{p.image}}" width="100%">
-                        <div class='windowprice'>${{p.price}}</div>
+                      <div class='col-md-5' style='padding:0px'>
+                        <img src="{{MEDIA_URL}}{{p.image}}" width="100%" class='saleimg'>
+                        <div class='banner'>${{p.price}}</div>
                       <span><a href="{% url 'editproduct' p.id %}" class="btn btn-primary btn-xs" role="button">Edit Page</a></span>
                       <span><a href="{% url 'uploadimages' p.id %}" class="btn btn-primary btn-xs" role="button">Add Images</a></span>
                       </div>
                       <div class='col-md-7'>
-                        <h5>Total Sales: $1200 (100 items)</h5>
+                        <h5>Total Sales: {{p.purchase__price__sum}}</h5>
                         <h5>Monthly Sales: $100 (15 items)</h5>
                       </div>
                       
@@ -96,6 +100,8 @@ new Morris.Line({
   data: [
   {% for l  in morrislist %}
               {{l|safe}}
+
+  {% empty %}
   {% endfor %}
   ],
   xkey: 'date',

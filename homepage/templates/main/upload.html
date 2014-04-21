@@ -16,7 +16,7 @@
         <div class="page-header">
           <div class='row'>
             <div class='col-md-12'>
-                  <h1 id='mainheader'>Add Product</h1>
+                  <h1 id='mainheader'>Sell a Deck <small>Step 1 of 2</small></h1>
             </div>
           </div>
         </div>
@@ -24,12 +24,18 @@
 
 
         <div class='row'>
+          <h4>If you want to sell a deck, you are in the right place</h4>
+          <p>First, fill out the form and upload the file and main preview image below. On the next page, you will upload preview images of all the slides.</p>
+          <hr>
+            <div class='col-md-12'>
 
-            <form method='post' enctype="multipart/form-data">{% csrf_token %}
-              {{form.as_p}}
-            <button type="submit" class='btn btn-primary' name='addproduct'>Submit</button>
-            </form>
-
+                <div class='col-md-8'>
+                                      {% load crispy_forms_tags %}
+                                        {% crispy form %}
+                </div>
+                <div class='col-md-4' id='fixedhelper'>
+                </div>
+            </div>
         </div>
 
 
@@ -41,6 +47,23 @@
 
 {% block scripts %}
 
+<script type="text/javascript">
+
+$(function () {
+    $('#id_name').popover({'trigger':'hover', 'content': 'This is the name of the deck. Try to keep it short and sweet', 'container':'body'});
+
+    $('#div_id_description').popover({'trigger':'hover', 'content': 'The description should contain everything someone would want to know about the deck.  You should breakdown exactly what is in the presentation and "sell it" here. This is where you give all the details.', 'container':'body'});
+
+    $('#id_price').popover({'trigger':'hover', 'content': ' $10-$15 is reccomended.  This should be no less than $5.', 'container':'body'});
+
+    $('#id_pages').popover({'trigger':'hover', 'content': 'The number of slides your presentation contains', 'container':'body'});
+
+    $('#id_tags').popover({'trigger':'hover', 'content': 'These are important. Include up to 10 descriptive tags.  Be sure to make one of them the category name. ', 'container':'body'});
+
+
+});
+
+</script>
 
 {% endblock %}
 
