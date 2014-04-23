@@ -30,6 +30,10 @@
   background-color: rgb(227, 255, 224);
 }
 
+  form{
+    display: inline-block;
+  }
+
 </style>
 
 <link  href="http://fotorama.s3.amazonaws.com/4.4.9/fotorama.css" rel="stylesheet"> <!-- 3 KB -->
@@ -99,8 +103,8 @@
                       <form action="{% url 'charge' %}" method="POST">{% csrf_token %}
                         <script
                           src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                          data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
-                          data-name="SlideRuler"
+                          data-key='{{product.user_created.userprofile.stripe_publishable_key}}'
+                          data-name="DeckRuler"
                           data-description="{{product.name}} (${{product.price}})"
                           data-amount="{{stripeprice}}"
                           data-email="{{request.user.email}}"
@@ -164,8 +168,8 @@
             <form action="{% url 'charge' %}" method="POST">{% csrf_token %}
               <script
                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
-                data-name="SlideRuler"
+                data-key="{{product.user_created.userprofile.stripe_publishable_key}}"
+                data-name="DeckRuler"
                 data-description="{{product.name}} (${{product.price}})"
                 data-amount="{{stripeprice}}"
                 data-email="{{request.user.email}}"

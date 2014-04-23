@@ -18,6 +18,8 @@ urlpatterns = patterns('',
 	url(r'^c/(?P<category>.+)/$', views.category, name='category'),
 	url(r'^search/$', views.search, name='search'),
 	url(r'^multiupload/$', views.multiupload, name='multiupload'),
+	url(r'^acceptpayments/$', views.acceptpayments, name='acceptpayments'),
+	url(r'^acceptpayments/striperesponse/$', views.striperesponse, name='striperesponse'),
 
 	url(r'^howbuyingworks/$', views.howbuyingworks, name='howbuyingworks'),
 	url(r'^howsellingworks/$', views.howsellingworks, name='howsellingworks'),
@@ -31,7 +33,6 @@ urlpatterns = patterns('',
 )
 
 ##########  OPTIONAL #######
-
 # option to download now or create account (if not logged in) -- modal 
 # fix price and sale price
 # ability to save presentations
@@ -41,9 +42,11 @@ urlpatterns = patterns('',
 
 ########### IMPORTANT ##########
 # front end file size checking
-# sort presentations by most recent, downloads(popular), featured
 # salescenter fix -- weekly sales, monthly sales (hide graph for now)
 # get stripe connect to work
+# get django messages working
+# do faq and tos and privacy policy
+
 
 
 

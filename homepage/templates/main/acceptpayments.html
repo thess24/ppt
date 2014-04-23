@@ -4,37 +4,32 @@
 {% block head %}
 <style type="text/css">
 
-	body {
-	  color: rgb(120, 120, 120);
-	}
+
 
 </style>
-
-{{form.media}}
-
 {% endblock %}
  
 
 {% block content %} 
         <div class="page-header">
+
           <div class='row'>
             <div class='col-md-12'>
-                  <h1 id='mainheader'>Edit Product</h1>
+                  <h1 id='mainheader'>Accept Payments</h1>
             </div>
           </div>
         </div>
-          
 
-        {% if form %}
-        <div class='row'>
-                                {% load crispy_forms_tags %}
-                                  {% crispy form %}
-        </div>
-        {% endif %}
 
         <div class='row'>
-               <h2>{{errormessage}}</h2>
+
+          <a href="https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_3tfT9P19AQLjdkOmHXIjG3J4jWUknYKU&scope=read_write&state=1234" class='btn btn-primary'>
+            Connect with Stripe</a>
+
+
         </div>
+
+
 {% endblock %}
 
 
@@ -45,7 +40,6 @@
 
 <script type="text/javascript">
 </script>
-
 
 {% endblock %}
 

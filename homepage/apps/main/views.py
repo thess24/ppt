@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from apps.main.models import Product, Purchase, ProductImage, UserCard, ProductForm,ProductEditForm
+from apps.main.models import Product, Purchase, ProductImage, ProductForm,ProductEditForm, UserProfile
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -14,9 +14,25 @@ from django.views.decorators.csrf import csrf_exempt
 from itertools import groupby
 from collections import defaultdict
 from django.db.models import Sum
+import requests
+from django.contrib import messages
+
 
 def index(request):
 	products = Product.objects.filter(active=True)
+
+	if request.method == "GET":
+		if request.GET.get('type'):
+			sorttype = request.GET.get('type')
+			if not sorttype in ['popular', 'featured', 'recent']: raise Http404
+
+			if sorttype=='popular': 
+				products.order_by('purchases','-added_date')
+			if sorttype=='featured': 
+				products.order_by('featured','-added_date')
+			if sorttype=='recent': 
+				products.order_by('-added_date')
+
 	context= {'products':products}
 	return render(request, 'main/index.html', context)
 
@@ -26,21 +42,20 @@ def productpage(request, productid):
 	similarproducts = product.tags.similar_objects()
 	stripeprice = product.price *100
 
-	try:
-		customer = UserCard.objects.get(user=request.user)
-		customer_id = customer.usertoken
-	except:
-		customer_id = None	
-
 	context= {'product':product, 'productimages':productimages, 'stripeprice':stripeprice, 'similarproducts':similarproducts}
 	return render(request, 'main/productpage.html', context)
 
 @login_required
 def editproduct(request, productid):
 	try: product = Product.objects.get(id=productid)
-	except: raise Http404
+	except: return render(request, 'main/editproduct.html', {'errormessage':'Product Does Not Exist!'})
 
-	if not product.user_created == request.user: raise Http404
+	if not product.user_created == request.user: 
+		return render(request, 'main/editproduct.html', {'errormessage':"You can't edit a product you didn't upload"})
+
+	if product.active: 
+		return render(request, 'main/editproduct.html', {'errormessage':"This product is live and cannot be changed currently.  Please contact us to make changes."})
+
 
 	form = ProductEditForm(instance=product)
 
@@ -144,7 +159,7 @@ def salescenter(request):
 def category(request, category):
 	products = Product.objects.filter(category__iexact=category.lower(),active=True)
 
-	if not products: raise Http404
+	if not products: raise Http404  # 404 if category not accepted, if it is, say something
 
 	context= {'products':products, 'category':category}
 	return render(request, 'main/category.html', context)
@@ -164,7 +179,7 @@ def search(request):
 def charge(request):
 	# Set your secret key: remember to change this to your live secret key in production
 	# See your keys here https://manage.stripe.com/account
-	stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"
+	# stripe.api_key = "sk_test_BQokikJOvBiI2HlWgH4olfQ2"  #only for universal, this is a marketplace so every vendor has their own
 
 	token = request.POST.get('stripeToken')
 	email = request.POST.get('stripeEmail')
@@ -174,48 +189,27 @@ def charge(request):
 	product = Product.objects.get(id=productid)
 	product_price = product.price
 	product_amt = product_price*100
+	mycut = product_amt*3/10
 
-	if request.user.is_authenticated():
-		email = request.user.email
-		try:
-			customer = UserCard.objects.get(user=request.user)
-			customer_id = customer.usertoken
-		except:
-			customer_id = None	
+	a,b = UserProfile.objects.get_or_create(user=request.user)
+	publishkey = product.user_created.userprofile.stripe_publishable_key
+	accesstoken = product.user_created.userprofile.access_token
 
-		if not customer_id:
-			customer = stripe.Customer.create(
-				card=token,
-				description=email
-			)
-			c = UserCard(user=request.user, usertoken=customer.id)
-			c.save()
-			customer_id = customer.id
 
-		try:
-			stripe.Charge.create(
+	try:
+		charge = stripe.Charge.create(
 			amount=product_amt, 
 			currency="usd",
-			customer=customer_id
-			)
-		except stripe.CardError, e:
-		  # The card has been declined
-		  # render error template
-			pass
+			card=token,
+			description=email,
+			application_fee= mycut,
+			api_key = accesstoken,
+		)
+	except stripe.CardError, e:
+	  # The card has been declined
+	  # render error template
+		pass
 
-
-	else:  # not registered user, just entered card info
-		try:
-			charge = stripe.Charge.create(
-				amount=product_amt, 
-				currency="usd",
-				card=token,
-				description=email
-			)
-		except stripe.CardError, e:
-		  # The card has been declined
-		  # render error template
-			pass
 
 	# create purchase record
 	if request.user.is_authenticated():
@@ -230,7 +224,7 @@ def charge(request):
 
 	# send email
 	plaintext = get_template('downloademail.txt')
-	htmly     = get_template('downloademail.html')
+	htmly = get_template('downloademail.html')
 	d = Context({ 'purchase': purchase })
 	subject, from_email, to = 'Download Link', 'from@example.com', 'thess624@gmail.com'
 	text_content = plaintext.render(d)
@@ -294,6 +288,38 @@ def uploadimages(request, productid):
 	context= {'product':product, 'productimages':productimages}
 	return render(request, 'main/uploadimages.html', context)
 
+@login_required
+def acceptpayments(request):
+
+	# context= {'product':product, 'productimages':productimages}
+	return render(request, 'main/acceptpayments.html')
+
+@login_required
+def striperesponse(request):
+	code = request.GET.get('code')
+	profile = UserProfile.objects.get(user=request.user)
+
+	r = requests.post('https://connect.stripe.com/oauth/token', params={
+		'client_secret': 'sk_test_ChZBYMHbZLagr8DQdsqxcq9y',
+		'code': code,
+		'grant_type': 'authorization_code'
+	}).json()
+
+	try:
+		profile.access_token = r['access_token']
+		profile.refresh_token = r['refresh_token']
+		profile.stripe_publishable_key = r['stripe_publishable_key']
+		profile.save()
+
+		# messages.success(request, "Your account was successfully connected to Stripe.")
+	except KeyError:
+		raise Http404
+		# messages.error(request, "Unable to connect your account to Stripe.")
+
+	print r
+	# context= {'product':product, 'productimages':productimages}
+	return render(request, 'main/striperesponse.html')
+
 @csrf_exempt
 def deleteimage(request, imageid):
 	try: image = ProductImage.objects.get(id=imageid)
@@ -308,6 +334,8 @@ def howbuyingworks(request):
 
 def howsellingworks(request):
 	return render(request, 'main/howsellingworks.html')	
+
+
 
 def tos(request):
 	return render(request, 'main/howsellingworks.html')	

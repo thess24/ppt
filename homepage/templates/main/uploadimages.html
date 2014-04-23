@@ -11,7 +11,7 @@
     }
 
     #files{
-        padding: 20px;
+        padding: 20px 0px;
     }
 
     .gallerybox form{
@@ -70,9 +70,9 @@
                         <div id='files'>
                             {% for i in productimages %}
                             <span class='gallerybox'>
-                                <form method='post' class='imgbox' action='{% url "deleteimage" i.id %}'><img src='{{MEDIA_URL}}{{i.image}}' width='160px'/>
+                                <form method='post' class='imgbox' action='{% url "deleteimage" i.id %}'><img src='{{MEDIA_URL}}{{i.image}}'/>
                                     <button type='submit' class='btn banner' style='display:none'>
-                                        <span class='glyphicon glyphicon-trash'> Delete</span>
+                                        <span class='glyphicon glyphicon-trash'></span>
                                     </button>
                                 </form>
                             </span>
@@ -98,9 +98,19 @@
 <script src="{{ STATIC_URL }}js/jquery.ui.widget.js" rel="stylesheet"></script>
 <script src="{{ STATIC_URL }}js/jquery.iframe-transport.js" rel="stylesheet"></script>
 <script src="{{ STATIC_URL }}js/jquery.fileupload.js" rel="stylesheet"></script>
+<script src="{{ STATIC_URL }}js/fakecrop.js" rel="stylesheet"></script>
 
 
    <script>
+
+$(function () {
+    $('.imgbox img').fakecrop({
+        wrapperWidth : 130,
+        wrapperHeight : 130,
+    });
+});
+
+
 
 $(function () {
     $('#fileupload').bind('change', function() {

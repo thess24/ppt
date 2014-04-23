@@ -88,6 +88,14 @@ class UserCard(models.Model):
 	def __unicode__(self):
 		return self.user.email
 
+class UserProfile(models.Model):
+	user = models.OneToOneField(User)
+	access_token = models.CharField(max_length=200, null=True, blank=True)
+	refresh_token = models.CharField(max_length=200, null=True, blank=True)
+	stripe_publishable_key = models.CharField(max_length=200, null=True, blank=True)
+
+	def __unicode__(self):
+		return self.user.email
 
 
 
