@@ -13,7 +13,7 @@ DEBUG = True
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
 TEMPLATE_DEBUG = DEBUG
-
+ 
 
 ########## EMAIL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
@@ -39,6 +39,8 @@ EMAIL_USE_TLS = True
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 SERVER_EMAIL = EMAIL_HOST_USER
+
+DEFAULT_FROM_EMAIL = environ.get('EMAIL_HOST_USER', '')  #for use with windows live 
 ########## END EMAIL CONFIGURATION
 
 
@@ -107,10 +109,12 @@ AWS_HEADERS = {
 }
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
-STATIC_URL = 'https://s3.amazonaws.com/%s/' % AWS_STORAGE_BUCKET_NAME
+S3_URL = 'https://s3.amazonaws.com/%s/' % AWS_STORAGE_BUCKET_NAME
+STATIC_URL = S3_URL + '/static/'
+MEDIA_URL = S3_URL + '/media/'
 ########## END STORAGE CONFIGURATION
 
-
+ 
 ########## COMPRESSION CONFIGURATION
 # See: http://django_compressor.readthedocs.org/en/latest/settings/#django.conf.settings.COMPRESS_OFFLINE
 COMPRESS_OFFLINE = True
@@ -140,3 +144,9 @@ SECRET_KEY = environ.get('SECRET_KEY', SECRET_KEY)
 ALLOWED_HOSTS = ['.herokuapp.com']
 ########## END ALLOWED HOST CONFIGURATION
 
+
+
+
+############ ALL AUTH
+
+ACCOUNT_EMAIL_VERIFICATION='mandatory'

@@ -130,7 +130,7 @@ def salescenter(request):
 	products = Product.objects.filter(user_created=request.user).annotate(Sum('purchase__price'))
 	monthly = Product.objects.filter(user_created=request.user,added_date__gte=datetime.datetime.now()- datetime.timedelta(days=30)).annotate(Sum('purchase__price'))
 	weeklyproducts = Product.objects.filter(user_created=request.user,added_date__gte=datetime.datetime.now()- datetime.timedelta(days=7)).annotate(Sum('purchase__price'))
-	print monthly[0].purchase__price__sum  #need to do nested loops in template
+	# print monthly[0].purchase__price__sum  #need to do nested loops in template
 
 	tempmorrislist = []
 	for keydate, group in groupby(sales,lambda x: x.sale_date.date()):

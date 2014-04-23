@@ -46,7 +46,7 @@ urlpatterns = patterns('',
 # get stripe connect to work
 # get django messages working
 # do faq and tos and privacy policy
-
+# s3 keys added, buckets created, new db with correct /media, upload works
 
 
 
