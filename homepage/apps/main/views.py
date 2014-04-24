@@ -16,7 +16,7 @@ from collections import defaultdict
 from django.db.models import Sum
 import requests
 from django.contrib import messages
-
+ 
 
 def index(request):
 	products = Product.objects.filter(active=True)
@@ -61,10 +61,10 @@ def editproduct(request, productid):
 
 	if request.method=='POST':
 		if 'addproduct' in request.POST:
-			form = ProductEditForm(request.POST, request.FILES)
+			form = ProductEditForm(request.POST, request.FILES,instance=product)
 			if form.is_valid():
 				instance = form.save(commit=False)
-				instance.user_created=request.user
+				# instance.user_created=request.user
 				instance.save()
 				form.save_m2m()
 
@@ -129,31 +129,31 @@ def salescenter(request):
 	sales = Purchase.objects.filter(product__user_created=request.user).order_by('sale_date')
 	products = Product.objects.filter(user_created=request.user).annotate(Sum('purchase__price'))
 	monthly = Product.objects.filter(user_created=request.user,added_date__gte=datetime.datetime.now()- datetime.timedelta(days=30)).annotate(Sum('purchase__price'))
-	weeklyproducts = Product.objects.filter(user_created=request.user,added_date__gte=datetime.datetime.now()- datetime.timedelta(days=7)).annotate(Sum('purchase__price'))
+	weekly = Product.objects.filter(user_created=request.user,added_date__gte=datetime.datetime.now()- datetime.timedelta(days=7)).annotate(Sum('purchase__price'))
 	# print monthly[0].purchase__price__sum  #need to do nested loops in template
 
-	tempmorrislist = []
-	for keydate, group in groupby(sales,lambda x: x.sale_date.date()):
-		thelist = [(x.product.name,x.price) for x in group]
+	# tempmorrislist = []
+	# for keydate, group in groupby(sales,lambda x: x.sale_date.date()):
+	# 	thelist = [(x.product.name,x.price) for x in group]
 
-		testDict = defaultdict(int)
-		for key, val in thelist:
-			testDict[key] += val
+	# 	testDict = defaultdict(int)
+	# 	for key, val in thelist:
+	# 		testDict[key] += val
 
-		tempmorrislist.append( [keydate, testDict] )
+	# 	tempmorrislist.append( [keydate, testDict] )
 
-	morrislist=[]
-	for i in tempmorrislist:
-		keylist = []
-		string = "{ date: '"+ str(i[0])+"'"
-		for j,k in i[1].items():
-			string += ','+j+':'+str(k)
-		string +='},'
-		morrislist.append(string)
+	# morrislist=[]
+	# for i in tempmorrislist:
+	# 	keylist = []
+	# 	string = "{ date: '"+ str(i[0])+"'"
+	# 	for j,k in i[1].items():
+	# 		string += ','+j+':'+str(k)
+	# 	string +='},'
+	# 	morrislist.append(string)
 
 
 
-	context= {'sales':sales, 'products':products, 'morrislist':morrislist}
+	context= {'sales':sales, 'products':products, 'monthly':monthly, 'weekly':weekly}
 	return render(request, 'main/salescenter.html', context)
 
 def category(request, category):

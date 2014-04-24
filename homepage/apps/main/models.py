@@ -10,13 +10,14 @@ from settings.common import MAX_FILE_SIZE, MAX_IMG_SIZE, ALLOWED_FILE_TYPES, ALL
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
 from crispy_forms.bootstrap import PrependedText, StrictButton
-
+from django.core.exceptions import ValidationError
 
 class Product(models.Model):
 
 	CATEGORIES = (
 	('Maps','Maps'),
 	('Business','Business'),
+	('Icons/Graphics','Icons/Graphics'),
 	('Finance','Finance'),
 	('Marketing','Marketing'),
 	('Health/Fitness','Health/Fitness'),
@@ -28,7 +29,6 @@ class Product(models.Model):
 	('Design','Design'),
 	('Nature','Nature'),
 	)
- 
 
 
 	name = models.CharField(max_length=140)
@@ -120,7 +120,7 @@ class ProductForm(ModelForm):
 		if pname:
 			raise ValidationError("That name already exists")
 
-		if image:
+		if image: 
 			if image._size > MAX_IMG_SIZE:
 				raise ValidationError("Image too large - must be less than 300kb")
 
@@ -161,4 +161,4 @@ class ProductForm(ModelForm):
 class ProductEditForm(ProductForm):
 	class Meta:
 		model = Product
-		exclude = ['purchases', 'user_created', 'active', 'new', 'popular', 'featured','name','pages','product_file']
+		exclude = ['purchases', 'user_created', 'active', 'new', 'popular', 'featured','name','pages','product_file', 'image']

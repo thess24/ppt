@@ -6,7 +6,17 @@
 
 .saleimg{
     padding-bottom: 5px;
+}
 
+.datedesc{
+    font-size: .85em;
+}
+
+#weeksales{
+    padding: 5px;
+    background-color: rgb(232, 255, 237);
+    font-weight: bold;
+    font-size: 1.3em;
 }
 
 </style>
@@ -25,26 +35,14 @@
             </div>
           </div>
         </div>
-         
-
-
+<!-- 
         <div class='row'>
           <div class='col-md-12'>
           <div id="myfirstchart" style="height: 300px;"></div>          
           </div>
-        </div>
-  
-        <div class='row'>
-          <div class='col-md-12'>
-            <div class='col-md-4'></div>
-            <div class='col-md-4'></div>
-            <div class='col-md-4'></div>
-          </div>
-        </div>
+        </div> -->
 
         <div class='row'>
-
-
 
             {% for p in products %}
             <div class='col-md-6'>
@@ -64,8 +62,23 @@
                       <span><a href="{% url 'uploadimages' p.id %}" class="btn btn-primary btn-xs" role="button">Add Images</a></span>
                       </div>
                       <div class='col-md-7'>
-                        <h5>Total Sales: {{p.purchase__price__sum}}</h5>
-                        <h5>Monthly Sales: $100 (15 items)</h5>
+
+                        {% for w in weekly %}
+                        {% ifequal w.id p.id %}
+                        <h4>Weekly Sales: <span id='weeksales'>$ {{w.purchase__price__sum}}</span></h4>
+                        <div class='datedesc'>(Past 7 days)</div>
+                        {% endifequal %}
+                        {% endfor %}
+
+                        {% for m in monthly%}
+                        {% ifequal m.id p.id %}
+                        <h4>Monthly Sales: $ {{m.purchase__price__sum}}</h4>
+                        <div class='datedesc'>(Past 30 days)</div>
+                        {% endifequal %}
+                        {% endfor %}
+
+                        <h4>Total Sales: $ {{p.purchase__price__sum}}</h4>
+
                       </div>
                       
                   </div>
@@ -92,26 +105,25 @@
 
 <script type="text/javascript">
 
-new Morris.Line({
-  // ID of the element in which to draw the chart.
-  element: 'myfirstchart',
-  // Chart data records -- each entry in this array corresponds to a point on
-  // the chart.
-  data: [
-  {% for l  in morrislist %}
-              {{l|safe}}
+// new Morris.Line({
+//   // ID of the element in which to draw the chart.
+//   element: 'myfirstchart',
+//   // Chart data records -- each entry in this array corresponds to a point on
+//   // the chart.
+//   data: [
+//   {% for l  in morrislist %}
+//               {{l|safe}}
 
-  {% empty %}
-  {% endfor %}
-  ],
-  xkey: 'date',
-  ykeys: ['fafds','first'],
+//   {% empty %}
+//   {% endfor %}
+//   ],
+//   xkey: 'date',
+//   ykeys: ['fafds','first'],
 
-  labels: ['fafds ','first'],
-  xLabels: 'day',
-  preUnits:'$'
-});
-
+//   labels: ['fafds ','first'],
+//   xLabels: 'day',
+//   preUnits:'$'
+// });
 
 </script>
 

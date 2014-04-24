@@ -46,7 +46,10 @@
             <h4>Add up to 30 images here as a preview for the presentation.</h4> 
                 <p>To create the images, go to "Save As" in Powerpoint, and save all the slides as Jpegs.  It will give you the option to save all the slides seperatly.  Hit Yes to accept this.</p>
                 <br>
-                <h4><i>Selected images are automatically uploaded.  No need to save them</i></h4>
+                <h4><i>Selected images are automatically uploaded.  No need to save them</i>
+                    <a href="{% url 'productpage' product.id %}" class='btn btn-primary pull-right'>Product Page ></a>
+
+                </h4>
             <hr>
         </div>
         <div class='row'>
@@ -133,7 +136,7 @@ $(function () {
                 dataType: 'json',
                 done: function (e, data) {
                     $.each(data.result.files, function (index, file) {
-                        $('<span class="gallerybox"/>').html("<form method='post' class='imgbox' action='"+ file.deleteUrl+"'><img src='" + URL.createObjectURL(data.files[0]) + "' width='160px'/><button type='submit' class='btn banner' style='display:none'>Del</button></form>").appendTo('#files'); //getting pics to generate previews
+                        $('<span class="gallerybox"/>').html("<form method='post' class='imgbox' action='"+ file.deleteUrl+"'><img src='" + URL.createObjectURL(data.files[0]) + "' width='160px'/><button type='submit' class='btn banner' style='display:none'><span class='glyphicon glyphicon-trash'></span></button></form>").appendTo('#files'); //getting pics to generate previews
                     });
                 },
                 progressall: function (e, data) {

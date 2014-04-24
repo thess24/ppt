@@ -56,10 +56,8 @@
         <div class='row'>
               <div class='col-md-9'>
 
-
                     <div class='row'>
                       <div class='col-md-12'>
-
 
                         <div class='col-md-6'>
                              <div class="fotorama mainpic" data-nav="thumbs" data-allowfullscreen="true" data-fit='scaledown' data-width="100%" data-ratio="800/600">          
@@ -87,40 +85,11 @@
 
               </div>
 
-
               <div class='col-md-3'>
-
-                <!-- <div class="panel panel-default"> -->
-                  <!-- <div class="panel-body"> -->
-
-                {% if user.is_authenticated %}
                       <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style='width:100%'>
                         Buy now!
                       </button>
                       <div style='margin-top:5px; font-size:.8em'>Clicking this button will not bill you.</div>
-                {% else %}
-                <!-- <button id="customButton">Purchase</button> -->
-                      <form action="{% url 'charge' %}" method="POST">{% csrf_token %}
-                        <script
-                          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                          data-key='{{product.user_created.userprofile.stripe_publishable_key}}'
-                          data-name="DeckRuler"
-                          data-description="{{product.name}} (${{product.price}})"
-                          data-amount="{{stripeprice}}"
-                          data-email="{{request.user.email}}"
-                          data-allow-remember-me="false"
-                          data-label="Pay with Card">
-                        </script>
-                        <input type='hidden' value='{{product.id}}' name='productid'>
-                      </form>
-                      <div>Buy now to download.  No signup required!</div>
-                {% endif %}
-
-
-                      
-                  <!-- </div>
-                </div> -->
-
                 <hr>
                     <h3 class="panel-title">Similar</h3>
 
@@ -134,9 +103,7 @@
                     <div>This is a one of a kind!</div>
                     {% endfor %}
    
-
-
-            </div> <!--end md col 4-->
+            </div> <!--end md col 3-->
           </div>
 
 
@@ -150,20 +117,12 @@
         <h4 class="modal-title" id="myModalLabel">Confirm Purchase</h4>
       </div>
       <div class="modal-body">
-        <div>We found a card on file.  To confirm the purchase of "{{product.name}}"" and charge the card on file for {{product.price}}, click "Buy with Card on File" below.</div>
+        <div>To confirm the purchase of "{{product.name}}"" and charge your card for ${{product.price}}, click "Pay with Card" below.</div>
 
-        <div>To enter a new card, click on </div>
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-
-            {% if request.user.usercard.usertoken%}
-            <form action="{% url 'charge' %}" method="POST">{% csrf_token %}
-              <input type='hidden' value='{{product.id}}' name='productid'>
-              <button type="submit" class='btn btn-primary'>Buy with card on file</button>
-            </form>
-            {% endif %}
 
             <form action="{% url 'charge' %}" method="POST">{% csrf_token %}
               <script
@@ -193,25 +152,6 @@
 <script src="https://checkout.stripe.com/checkout.js"></script>
 
 <script type="text/javascript">
-
-//   var handler = StripeCheckout.configure({
-//     key: 'pk_test_6pRNASCoBOKtIshFeQd4XMUh',
-//     // image: '/square-image.png',
-//     token: function(token, args) {
-//       // Use the token to create the charge with a server-side script.
-//       // You can access the token ID with `token.id`
-//     }
-//   });
-
-//   document.getElementById('customButton').addEventListener('click', function(e) {
-//     // Open Checkout with further options
-//     handler.open({
-//       name: 'Demo Site',
-//       description: '2 widgets ($20.00)',
-//       amount: 2000
-//     });
-//     e.preventDefault();
-//   });
 
 </script>
 

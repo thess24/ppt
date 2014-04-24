@@ -41,24 +41,21 @@ urlpatterns = patterns('',
 
 
 ########### IMPORTANT ##########
-# front end file size checking
-# salescenter fix -- weekly sales, monthly sales (hide graph for now)
 # get stripe connect to work
 # get django messages working
 # do faq and tos and privacy policy
-# s3 keys added, buckets created, new db with correct /media, upload works
-
+# buy ssl cert
+# uploading icon for ppt
+# make frontpage look better
+# make sure editing file works
+# write what im looking for in terms of items to sell
+# ability to ban users from uploading
 
 
 #### stripe
 # error handling
 # make sure only one card on file at a time - display what the card is
 # make it a marketplace and take percentage, not one sided
-
-
-
-
-
 
 
 # maps
@@ -74,11 +71,5 @@ urlpatterns = patterns('',
 # nature
 
 
-# Monday
-# --stripe connect
 
-# Tuesday
-# --testing and socialmedia
-
-# Wednesday
-# --on heroku
+######## testing
