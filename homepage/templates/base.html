@@ -56,7 +56,7 @@
       }
 
       #bottomfooter {
-        height: 50px;
+        height: 55px;
         background-color: #000000;
         color: #B9B9B9;
       }
@@ -130,6 +130,10 @@
       background-color:rgb(247, 247, 247)
       }
 
+      .blink{
+          font-size: .8em;
+          color: gray;
+      }
 
   </style>
   </head>
@@ -235,7 +239,11 @@
     </div><!--end footer-->
     <div id='bottomfooter'>
       <div class='container'>
-        <p><div class='pull-right'>DeckRuler 2014</div></p>
+        <p>
+          <span class='pull-left'><a class='blink' href="{% url 'tos' %}">Terms of service</a> |  </span>
+          <span class='pull-left'><a class='blink' href="{% url 'privacypolicy' %}">Privacy Policy</a></span>
+          <span class='pull-right'>DeckRuler 2014</span>
+        </p>
       </div>
     </div>
 

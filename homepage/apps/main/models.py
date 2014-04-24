@@ -93,6 +93,7 @@ class UserProfile(models.Model):
 	access_token = models.CharField(max_length=200, null=True, blank=True)
 	refresh_token = models.CharField(max_length=200, null=True, blank=True)
 	stripe_publishable_key = models.CharField(max_length=200, null=True, blank=True)
+	banned = models.BooleanField(default=False)
 
 	def __unicode__(self):
 		return self.user.email

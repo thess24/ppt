@@ -39,7 +39,6 @@ urlpatterns = patterns('',
 # pagination
 
 
-
 ########### IMPORTANT ##########
 # get stripe connect to work
 # get django messages working
@@ -49,7 +48,6 @@ urlpatterns = patterns('',
 # make frontpage look better
 # make sure editing file works
 # write what im looking for in terms of items to sell
-# ability to ban users from uploading
 
 
 #### stripe
