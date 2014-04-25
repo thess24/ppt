@@ -338,10 +338,10 @@ def howsellingworks(request):
 
 
 def tos(request):
-	return render(request, 'main/howsellingworks.html')	
+	return render(request, 'main/tos.html')	
 
 def privacypolicy(request):
-	return render(request, 'main/howsellingworks.html')
+	return render(request, 'main/privacypolicy.html')
 
 def faq(request):
-	return render(request, 'main/howsellingworks.html')	
+	return render(request, 'main/faq.html')	

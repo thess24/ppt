@@ -41,13 +41,13 @@ urlpatterns = patterns('',
 
 ########### IMPORTANT ##########
 # get stripe connect to work
-# get django messages working
 # do faq and tos and privacy policy
 # buy ssl cert
-# uploading icon for ppt
+# uploading icon for ppt -- jquery say uploading... or show gif
 # make frontpage look better
 # make sure editing file works
 # write what im looking for in terms of items to sell
+# need new db for production
 
 
 #### stripe

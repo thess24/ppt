@@ -86,9 +86,15 @@ $(function () {
           $('.filesizeerror').hide();
 
        }
-
-
     });
+
+
+    $('input[name="addproduct"]').click(function(){
+        $(this).prop('value','Uploading...');
+        $(this).addClass('btn-success').removeClass('btn-primary');
+    }); 
+
+
 });
 
 </script>
