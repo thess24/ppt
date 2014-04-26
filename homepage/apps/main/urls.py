@@ -27,7 +27,6 @@ urlpatterns = patterns('',
 	url(r'^privacypolicy/$', views.privacypolicy, name='privacypolicy'),
 	url(r'^faq/$', views.faq, name='faq'),
 
-
 	(r'^media/(?P<path>.*)$', 'django.views.static.serve',
 		{'document_root': MEDIA_ROOT}),
 )
@@ -45,7 +44,7 @@ urlpatterns = patterns('',
 # make frontpage look better
 # write what im looking for in terms of items to sell
 # faq
-
+# ability to serve files from s3
 
 
 

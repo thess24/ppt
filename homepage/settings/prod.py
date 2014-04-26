@@ -10,7 +10,7 @@ from S3 import CallingFormat
 from common import *
 
 DEBUG = True
-
+PRODUCTION = True
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
 TEMPLATE_DEBUG = DEBUG
  
