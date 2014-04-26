@@ -28,8 +28,8 @@ urlpatterns = patterns('',
 	url(r'^faq/$', views.faq, name='faq'),
 
 
-	# (r'^media/(?P<path>.*)$', 'django.views.static.serve',
-	# 	{'document_root': MEDIA_ROOT}),
+	(r'^media/(?P<path>.*)$', 'django.views.static.serve',
+		{'document_root': MEDIA_ROOT}),
 )
 
 ##########  OPTIONAL #######

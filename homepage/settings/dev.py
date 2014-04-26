@@ -83,3 +83,9 @@ EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = 'testing@example.com'
 
+
+
+######### STRIPE
+
+
+STRIPE_CLIENT_ID = 'ca_3tfT9P19AQLjdkOmHXIjG3J4jWUknYKU'
