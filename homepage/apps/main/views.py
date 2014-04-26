@@ -98,22 +98,44 @@ def downloadpage(request, purchaseuuid):
 	memory at once. The FileWrapper will turn the file object into an           
 	iterator for chunks of 8KB.                                                 
 	"""
+# Production
+
+
+
+	filepath = product.product_file.url
+
+	response_headers = {
+		'response-content-type': 'application/force-download',
+		'response-content-disposition':'attachment;filename="%s"'%product.name
+	}
+
+	url = s3.generate_url(60, 'GET',
+		bucket=settings.AWS_STORAGE_BUCKET_NAME,
+		key=filepath,
+		response_headers=response_headers,
+		force_http=True)
+	
+	return http.HttpResponseRedirect(url)
+
 
 	# the_file = os.path.normpath(settings.STORAGE_ROOT + product.product_file.url)
-	the_file = product.product_file.url
-	# print 'url: ' + product.product_file.url
-	# print 'path: '+  product.product_file.path
-	# print 'join: ' + the_file
-	# print 'Media root: ' + settings.MEDIA_ROOT
-	# import pdb; pdb.set_trace()
-	# the_file = product.product_file.path # Select your file here.                                
+	# the_file = product.product_file.url
+	# # filename = os.path.basename(the_file)
+	# filename = os.path.basename(product.product_file.url)
+	# response = HttpResponse(FileWrapper(open(the_file)),
+	# 					content_type=mimetypes.guess_type(the_file)[0])
+	# response['Content-Length'] = os.path.getsize(the_file)    
+	# response['Content-Disposition'] = "attachment; filename=%s" % filename
+	# return response
+
+# Development    
+	# the_file = product.product_file.path                            
 	# filename = os.path.basename(the_file)
-	filename = os.path.basename(product.product_file.url)
-	response = HttpResponse(FileWrapper(open(the_file)),
-						content_type=mimetypes.guess_type(the_file)[0])
-	response['Content-Length'] = os.path.getsize(the_file)    
-	response['Content-Disposition'] = "attachment; filename=%s" % filename
-	return response
+	# response = HttpResponse(FileWrapper(open(the_file)),
+	# 					content_type=mimetypes.guess_type(the_file)[0])
+	# response['Content-Length'] = os.path.getsize(the_file)    
+	# response['Content-Disposition'] = "attachment; filename=%s" % filename
+	# return response
 
 
 @login_required
