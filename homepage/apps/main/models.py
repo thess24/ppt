@@ -143,6 +143,7 @@ class ProductForm(ModelForm):
 		super(ProductForm, self).__init__(*args, **kwargs)
 		self.helper= FormHelper()
 		self.helper.form_class = 'form-horizontal'
+		self.helper.form_id = 'upload-form'
 		self.helper.label_class = 'col-lg-3'
 		self.helper.field_class = 'col-lg-9'
 		self.helper.layout = Layout(

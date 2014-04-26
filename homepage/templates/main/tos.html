@@ -4,7 +4,13 @@
 {% block head %}
 <style type="text/css">
 
+.term h2{
+	font-size: 24px;
+}
 
+.page-header{
+	margin-top: 20px;
+}
 
 </style>
 {% endblock %}
@@ -23,7 +29,53 @@
 
         <div class='row'>
 
+				<div class="col-md-9">
+                    <div class="page-header">
+                            <h2>1. General Terms</h2>
+                    </div>
+                    <p><strong>1.1</strong> By accessing and placing an order with DeckRuler, you confirm that you are in agreement with and bound by the terms and conditions contained in the Terms Of Use outlined below. These terms apply to the entire website and any email or other type of communication between you and DeckRuler.</p>
 
+                    <div class="page-header term">
+                            <h2>2. Products</h2>
+                    </div>
+                    <p><strong>2.1</strong> All products and services are delivered by DeckRuler electronically to your email address.</p>
+                    <p><strong>2.2</strong> DeckRuler is not responsible for any technological delays beyond our control. If your spam blocker blocks our emails from reaching you or you do not provide a valid email address where you can be reachable then you can access your download from the Purchases page.</p>
+
+                    <div class="page-header term">
+                            <h2>3. Security</h2>
+                    </div>
+                    <p><strong>3.1</strong> DeckRuler does not process any order payments through the website. All payments are processed securely through PayPal, a third party online payment provider. Feel free to contact us about our security policies.</p>
+                    
+                    <div class="page-header term">
+                            <h2>4. Refunds</h2>
+                    </div>
+                    <p><strong>4.1</strong> You have 24 hours to inspect your purchase and to determine if it does not meet with the expectations laid forth by the seller. In the event that you wish to receive a refund, DeckRuler will issue you a refund and ask you to specify how the product failed to live up to expectations.</p>
+                    
+                    <div class="page-header term">
+                            <h2>5. Ownership</h2>
+                    </div>
+                    <p><strong>5.1</strong> Ownership of the product is governed by the usage license selected by the seller.</p>
+
+                    <div class="page-header changes">
+                            <h2>Changes to terms</h2>
+                    </div>
+                    <p>If we change our terms of use we will post those changes on this page.</p>
+        		</div>
+
+	            <div  class='col-md-3'>
+	                <div class="panel panel-default">
+	                  <div class="panel-body">
+	                    Last updated: April 25th, 2014
+	                  </div>
+	                </div>
+
+	                <div class="panel panel-default">
+	                  <div class="panel-body">
+	                    <a href="{% url 'privacypolicy' %}">Privacy Policy</a>
+	                  </div>
+	                </div>
+
+	            </div>
 
         </div>
 

@@ -41,19 +41,18 @@ urlpatterns = patterns('',
 
 ########### IMPORTANT ##########
 # get stripe connect to work
-# do faq and tos and privacy policy
 # buy ssl cert
-# uploading icon for ppt -- jquery say uploading... or show gif
 # make frontpage look better
 # make sure editing file works
 # write what im looking for in terms of items to sell
-# need new db for production
+# make flow work
+
+
 
 
 #### stripe
 # error handling
-# make sure only one card on file at a time - display what the card is
-# make it a marketplace and take percentage, not one sided
+
 
 
 # maps

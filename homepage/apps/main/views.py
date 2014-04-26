@@ -108,6 +108,10 @@ def downloadpage(request, purchaseuuid):
 
 @login_required
 def upload(request):
+	profile , c = UserProfile.objects.get_or_create(user=request.user)
+	if not profile.access_token:
+		return HttpResponseRedirect(reverse('apps.main.views.acceptpayments', args=()))
+
 	form = ProductForm()
 
 	if request.method=='POST':
@@ -290,14 +294,12 @@ def uploadimages(request, productid):
 
 @login_required
 def acceptpayments(request):
-
-	# context= {'product':product, 'productimages':productimages}
 	return render(request, 'main/acceptpayments.html')
 
 @login_required
 def striperesponse(request):
 	code = request.GET.get('code')
-	profile = UserProfile.objects.get(user=request.user)
+	profile,c = UserProfile.objects.get_or_create(user=request.user)
 
 	r = requests.post('https://connect.stripe.com/oauth/token', params={
 		'client_secret': 'sk_test_ChZBYMHbZLagr8DQdsqxcq9y',

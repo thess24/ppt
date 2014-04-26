@@ -89,9 +89,9 @@ $(function () {
     });
 
 
-    $('input[name="addproduct"]').click(function(){
-        $(this).prop('value','Uploading...');
-        $(this).addClass('btn-success').removeClass('btn-primary');
+    $('#upload-form').submit(function(){
+        $(this).find('button').html('Uploading...').addClass('btn-success transp').removeClass('btn-primary');
+        return true;
     }); 
 
 
