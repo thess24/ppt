@@ -155,6 +155,8 @@ TEMPLATE_DIRS = (
 ########## MIDDLEWARE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#middleware-classes
 MIDDLEWARE_CLASSES = (
+    # make sure all requests redirected to https
+    'sslify.middleware.SSLifyMiddleware',
     # Use GZip compression to reduce bandwidth.
     'django.middleware.gzip.GZipMiddleware',
 
