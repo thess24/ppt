@@ -99,7 +99,8 @@ def downloadpage(request, purchaseuuid):
 	iterator for chunks of 8KB.                                                 
 	"""
 
-	the_file = os.path.normpath(settings.STORAGE_ROOT + product.product_file.url)
+	# the_file = os.path.normpath(settings.STORAGE_ROOT + product.product_file.url)
+	the_file = product.product_file.url
 	# print 'url: ' + product.product_file.url
 	# print 'path: '+  product.product_file.path
 	# print 'join: ' + the_file
