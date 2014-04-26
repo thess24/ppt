@@ -114,7 +114,7 @@ def downloadpage(request, purchaseuuid):
 
 		url = key.generate_url(600, 'GET',
 			response_headers=response_headers,
-			force_http=True)
+			)
 
 		return HttpResponseRedirect(url)
 
