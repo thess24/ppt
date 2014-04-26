@@ -18,12 +18,37 @@
 		{% block head %}{% endblock %}
     <style type="text/css">
 
-  </style>
+    .navbar{
+      height: 80px;
+      border-radius: 0;
+    }
+
+    .navbar-header{
+      padding-top: 12px;
+    }
+
+    .navbar-nav{
+      padding: 12px;
+    }
+
+    .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:hover, .navbar-inverse .navbar-nav>.open>a:focus {
+    color: #fff;
+    background-color: inherit;
+    }
+
+    .topbadge{
+      background-color: rgb(0, 114, 14);
+      padding: 2px 14px !important;
+      margin: 13px;
+      color: white !important;
+    }
+
+    </style>
   </head>
 
   <body>
 
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" style='border:0'>
+    <div class="navbar navbar-inverse" role="navigation" style='border:0'>
       <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -38,11 +63,11 @@
         <div class="collapse navbar-collapse">
           
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="{% url 'howsellingworks' %}">How selling works</a></li>
+            <li><a href="{% url 'howsellingworks' %}">Selling</a></li>
           {% if user.is_authenticated %}
 
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" style='height:68px'>
                 <span class='glyphicon glyphicon-cog'></span>  {{user.username}}<b class="caret"></b></a>
               <ul class="dropdown-menu"> 
                 <li class="dropdown-header">Account</li>
@@ -59,7 +84,7 @@
 
           {% else %}
             <li><a href="/accounts/signup">Signup</a></li>
-            <li><a href="/accounts/login">Sign In</a></li>
+            <li><a href="/accounts/login" class='topbadge'>Sign In</a></li>
           {% endif %}
           </ul>
 
