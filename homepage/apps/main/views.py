@@ -16,6 +16,7 @@ from collections import defaultdict
 from django.db.models import Sum
 import requests
 from django.contrib import messages
+from django.conf import settings
  
 
 def index(request):
@@ -97,7 +98,14 @@ def downloadpage(request, purchaseuuid):
 	memory at once. The FileWrapper will turn the file object into an           
 	iterator for chunks of 8KB.                                                 
 	"""
-	the_file = product.product_file.path # Select your file here.                                
+
+	the_file = os.path.normpath(settings.STORAGE_ROOT + product.product_file.url)
+	# print 'url: ' + product.product_file.url
+	# print 'path: '+  product.product_file.path
+	# print 'join: ' + the_file
+	# print 'Media root: ' + settings.MEDIA_ROOT
+	# import pdb; pdb.set_trace()
+	# the_file = product.product_file.path # Select your file here.                                
 	filename = os.path.basename(the_file)
 	response = HttpResponse(FileWrapper(open(the_file)),
 						content_type=mimetypes.guess_type(the_file)[0])
