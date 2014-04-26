@@ -107,13 +107,13 @@ def downloadpage(request, purchaseuuid):
 		key = bucket.get_key('media/files/class_15_-_Corp_Strategy_Acquisitions_etc_cs.pptx')
 
 
-		response_headers = {
-			'response-content-type': 'application/force-download',
-			'response-content-disposition':'attachment;filename="%s"'%product.name
-		}
+		# response_headers = {
+		# 	'response-content-type': 'application/force-download',
+		# 	'response-content-disposition':'attachment;filename="%s"'%product.name
+		# }
 
 		url = key.generate_url(600, 'GET',
-			response_headers=response_headers,
+			# response_headers=response_headers,
 			)
 
 		return HttpResponseRedirect(url)
