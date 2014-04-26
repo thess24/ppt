@@ -9,7 +9,7 @@ from S3 import CallingFormat
 
 from common import *
 
-DEBUG = False
+DEBUG = True
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
 TEMPLATE_DEBUG = DEBUG
@@ -161,5 +161,5 @@ ACCOUNT_EMAIL_VERIFICATION='mandatory'
 
 
 
-
+SECURE_SSL_REDIRECT=True
 

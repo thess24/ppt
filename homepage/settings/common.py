@@ -156,7 +156,7 @@ TEMPLATE_DIRS = (
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#middleware-classes
 MIDDLEWARE_CLASSES = (
     # make sure all requests redirected to https
-    'sslify.middleware.SSLifyMiddleware',
+    'djangosecure.middleware.SecurityMiddleware',
     # Use GZip compression to reduce bandwidth.
     'django.middleware.gzip.GZipMiddleware',
 
@@ -219,7 +219,7 @@ THIRD_PARTY_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'sslify',
+    'djangosecure',
 
 
 )
