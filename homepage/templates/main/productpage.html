@@ -4,35 +4,6 @@
 {% block head %}
 <style type="text/css">
 
-  .mainpic{
-    padding: 5px;
-  }
-
-  #descarea{
-    margin-top: 40px;
-  }
-
-.simproduct{
-  padding-bottom:10px;
-}
-
-.simproduct h4{
-  border-bottom: 1px solid gray;
-  padding: 3px;
-}
-
-.bigprice{
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  font-size: 3em;
-  padding: 10px;
-  background-color: rgb(227, 255, 224);
-}
-
-  form{
-    display: inline-block;
-  }
 
 </style>
 
@@ -60,7 +31,7 @@
                       <div class='col-md-12'>
 
                         <div class='col-md-6'>
-                             <div class="fotorama mainpic" data-nav="thumbs" data-allowfullscreen="true" data-fit='scaledown' data-width="100%" data-ratio="800/600">          
+                             <div class="fotorama mainpic"  data-allowfullscreen="true" data-fit='scaledown' data-width="100%" data-ratio="800/600">          
                               <a href="{{MEDIA_URL}}{{product.image}}"></a>
                               {% for p in productimages %}
                               <a href="{{MEDIA_URL}}{{p.image}}"></a>

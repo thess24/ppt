@@ -4,40 +4,6 @@
 {% block head %}
 <style type="text/css">
 
-  .well{
-    background-color: #FAFAFA;
-    padding: 0px !important;
-  }
-
-  .productwindow h4{
-    font-weight: bold;
-  }
-
-  .productwindow h4 a{ 
-    color: black;
-  }
-
-  .productwindow .windowprice{
-    font-weight: bold;
-    font-size: 1.3em;
-    color: rgb(168, 0, 0) ;
-    padding-top: 5px;
-  }
-
-  .imgboxlower{
-    padding: 10px;
-  }
-
-  .imgboxlower h4{
-    margin: 0px;
-  }
-
-  .viewbtn{
-    position: absolute;
-    top: 50%;
-    width: 100%;
-  }
-
 
 </style>
 {% endblock %}
@@ -55,7 +21,7 @@
 
 
         <div class='row'>
-          {% for p in products %}
+            {% for p in products %}
             <div class='col-md-3'>
               <div class='well productwindow'>
                     <div class='imgbox'>
@@ -63,7 +29,9 @@
                       {% if p.featured%}<span class='banner' style='background-color: rgb(200, 0, 0)'>Featured!</span>{% endif %}
                       {% if p.popular%}<span class='banner' style='background-color: rgb(0, 120, 200)'>Popular!</span>{% endif %}
                       {% if p.new%}<span class='banner' style='background-color: rgb(0, 200, 40)'>New!</span>{% endif %}
-                      <button class= 'btn viewbtn' style='display:none'><a href="">View</a></button>
+                      <button class= 'viewbtn' style='display:none'>
+                        <a href="{% url 'productpage' p.id %}"><span class='glyphicon glyphicon-share'></span> View</a>
+                      </button>
                     </div>
                     <div class='imgboxlower'>
                       <h4>
@@ -94,6 +62,22 @@
 {% block scripts %}
 
 <script type="text/javascript">
+
+$(function () {
+    $(document).on(
+        'mouseenter','.imgbox', function() {
+        $(this).find('button').fadeIn(200);
+        $(this).css('opacity',0.95);
+      });
+
+    $(document).on(
+        'mouseleave','.imgbox', function() {
+        $(this).find('button').fadeOut(200);
+        $(this).css('opacity',1);
+
+      });
+});
+
 </script>
 
 {% endblock %}

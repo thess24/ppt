@@ -43,9 +43,8 @@ urlpatterns = patterns('',
 # get stripe connect to work
 # buy ssl cert
 # make frontpage look better
-# make sure editing file works
 # write what im looking for in terms of items to sell
-# make flow work
+# faq
 
 
 

@@ -1,15 +1,200 @@
 @charset "UTF-8";
-/*
- * jQuery File Upload Plugin CSS Example 8.8.2
- * https://github.com/blueimp/jQuery-File-Upload
- *
- * Copyright 2013, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * http://www.opensource.org/licenses/MIT
- */
 
-body {
-  padding-top: 60px;
+          /* Sticky footer styles
+      -------------------------------------------------- */
+      html,
+      body { 
+        height: 100%;
+        font-family: 'Open Sans', sans-serif !important;
+        /* The html and body elements cannot have any padding or margin. */
+      }
+
+      h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+        font-family: 'Open Sans', sans-serif !important;
+      }
+
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by its height */
+        margin: 0 auto -60px;
+        /* Pad bottom by footer height */
+        padding: 0 0 130px;
+        margin-top: 50px;
+      }
+
+      /* Set the fixed height of the footer here */
+      #footer {
+        height: 160px;
+        background-color: #111111;
+        margin-top: 100px;
+        color: #B9B9B9;
+      }
+
+      #bottomfooter {
+        height: 55px;
+        background-color: #000000;
+        color: #B9B9B9;
+      }
+
+      #bottomfooter p{
+        margin-top: 20px;
+      }
+      /* Custom page CSS
+      -------------------------------------------------- */
+      /* Not required for template or sticky footer method. */
+
+      .container {
+        width: auto;
+        padding: 0 15px;
+      }
+      .container .credit {
+        margin: 20px 0;
+      }
+
+      .btn-file {
+          position: relative;
+          overflow: hidden;
+      }
+      .btn-file input[type=file] {
+          position: absolute;
+          top: 0;
+          right: 0;
+          min-width: 100%;
+          min-height: 100%;
+          font-size: 999px;
+          text-align: right;
+          filter: alpha(opacity=0);
+          opacity: 0;
+          outline: none;
+          background: white;
+          cursor: inherit;
+          display: block;
+        }
+
+      .banner{
+        right: 10px;
+        top: 10px;
+        margin: 5px;
+        background-color: rgb(200, 0, 0);
+        color:white;
+        font-weight: bold;
+        position: absolute;
+        text-align: center;
+        padding: 8px;
+
+      }
+
+      .imgbox{
+        position: relative;
+      }
+
+
+      #searchbar{
+          height: 60px;
+          padding: 13px;
+          background: #A2A2A2;
+      }
+
+      #searchbar form{
+        float: right;
+        width: 300px;
+      }
+
+
+      #searchbar form input{
+      background-color:rgb(247, 247, 247)
+      }
+
+      .blink{
+          font-size: .8em;
+          color: gray;
+      }
+
+      .footheader{
+        text-align:center;
+        padding: 10px;
+        border-bottom: 1px solid gray;
+      }
+
+
+  .well{
+    background-color: #FAFAFA;
+    padding: 0px !important;
+  }
+
+  .productwindow h4{
+    font-weight: bold;
+  }
+
+  .productwindow h4 a{ 
+    color: black;
+  }
+
+  .productwindow .windowprice{
+    font-weight: bold;
+    font-size: 1.3em;
+    color: rgb(168, 0, 0) ;
+    padding-top: 5px;
+  }
+
+  .imgboxlower{
+    padding: 10px;
+  }
+
+  .imgboxlower h4{
+    margin: 0px;
+  }
+
+  .viewbtn{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(255, 181, 86);
+    border: transparent;
+    height: 30px;
+  }
+
+  .viewbtn a{
+    color: black;
+    font-size: 1.2em;
+  }
+
+  form{
+    display: inline-block;
+  }
+
+  .filterbtn{
+    background: transparent;
+    border: 0;
+    font-size: 1.5em;
+  }
+
+  
+  .mainpic{
+    padding: 5px;
+  }
+
+  #descarea{
+    margin-top: 40px;
+  }
+
+.simproduct{
+  padding-bottom:10px;
+}
+
+.simproduct h4{
+  border-bottom: 1px solid gray;
+  padding: 3px;
+}
+
+.bigprice{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 3em;
+  padding: 10px;
+  background-color: rgb(227, 255, 224);
 }
