@@ -327,3 +327,7 @@ ALLOWED_FILE_TYPES = ['ppt','pptx','potx','thmx', 'PPT', 'PPTX', 'POTX', 'THMX']
 ALLOWED_IMG_TYPES = ['jpg', 'jpeg', 'gif', 'png', 'JPG', 'JPEG', 'GIF', 'PNG']
 
 
+######### HEROKU SETTINGS
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
