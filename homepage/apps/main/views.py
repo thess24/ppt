@@ -98,47 +98,47 @@ def downloadpage(request, purchaseuuid):
 	memory at once. The FileWrapper will turn the file object into an           
 	iterator for chunks of 8KB.                                                 
 	"""
-# Production
-if settings.PRODUCTION:
-	filepath = product.product_file.url
+	# Production
+	if settings.PRODUCTION:
+		filepath = product.product_file.url
 
-	conn = boto.connect_s3(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
-	bucket = conn.get_bucket(settings.AWS_STORAGE_BUCKET_NAME)
-	s3_file_path = bucket.get_key(filepath)
-
-
-	response_headers = {
-		'response-content-type': 'application/force-download',
-		'response-content-disposition':'attachment;filename="%s"'%product.name
-	}
-
-	url = s3_file_path.generate_url(600, 'GET',
-		bucket=settings.AWS_STORAGE_BUCKET_NAME,
-		key=filepath,
-		response_headers=response_headers,
-		force_http=True)
-
-	return HttpResponseRedirect(url)
+		conn = boto.connect_s3(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
+		bucket = conn.get_bucket(settings.AWS_STORAGE_BUCKET_NAME)
+		s3_file_path = bucket.get_key(filepath)
 
 
-	# the_file = os.path.normpath(settings.STORAGE_ROOT + product.product_file.url)
-	# the_file = product.product_file.url
-	# # filename = os.path.basename(the_file)
-	# filename = os.path.basename(product.product_file.url)
-	# response = HttpResponse(FileWrapper(open(the_file)),
-	# 					content_type=mimetypes.guess_type(the_file)[0])
-	# response['Content-Length'] = os.path.getsize(the_file)    
-	# response['Content-Disposition'] = "attachment; filename=%s" % filename
-	# return response
-else:
-# Development    
-	the_file = product.product_file.path                            
-	filename = os.path.basename(the_file)
-	response = HttpResponse(FileWrapper(open(the_file)),
-						content_type=mimetypes.guess_type(the_file)[0])
-	response['Content-Length'] = os.path.getsize(the_file)    
-	response['Content-Disposition'] = "attachment; filename=%s" % filename
-	return response
+		response_headers = {
+			'response-content-type': 'application/force-download',
+			'response-content-disposition':'attachment;filename="%s"'%product.name
+		}
+
+		url = s3_file_path.generate_url(600, 'GET',
+			bucket=settings.AWS_STORAGE_BUCKET_NAME,
+			key=filepath,
+			response_headers=response_headers,
+			force_http=True)
+
+		return HttpResponseRedirect(url)
+
+
+		# the_file = os.path.normpath(settings.STORAGE_ROOT + product.product_file.url)
+		# the_file = product.product_file.url
+		# # filename = os.path.basename(the_file)
+		# filename = os.path.basename(product.product_file.url)
+		# response = HttpResponse(FileWrapper(open(the_file)),
+		# 					content_type=mimetypes.guess_type(the_file)[0])
+		# response['Content-Length'] = os.path.getsize(the_file)    
+		# response['Content-Disposition'] = "attachment; filename=%s" % filename
+		# return response
+	else:
+	# Development    
+		the_file = product.product_file.path                            
+		filename = os.path.basename(the_file)
+		response = HttpResponse(FileWrapper(open(the_file)),
+							content_type=mimetypes.guess_type(the_file)[0])
+		response['Content-Length'] = os.path.getsize(the_file)    
+		response['Content-Disposition'] = "attachment; filename=%s" % filename
+		return response
 
 
 @login_required
