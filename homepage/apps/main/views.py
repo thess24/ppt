@@ -106,7 +106,8 @@ def downloadpage(request, purchaseuuid):
 	# print 'Media root: ' + settings.MEDIA_ROOT
 	# import pdb; pdb.set_trace()
 	# the_file = product.product_file.path # Select your file here.                                
-	filename = os.path.basename(the_file)
+	# filename = os.path.basename(the_file)
+	filename = os.path.basename(product.product_file.url)
 	response = HttpResponse(FileWrapper(open(the_file)),
 						content_type=mimetypes.guess_type(the_file)[0])
 	response['Content-Length'] = os.path.getsize(the_file)    
