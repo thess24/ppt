@@ -104,8 +104,7 @@ def downloadpage(request, purchaseuuid):
 
 		conn = boto.connect_s3(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
 		bucket = conn.get_bucket(settings.AWS_STORAGE_BUCKET_NAME)
-		s3_file_path = bucket.get_key('media/files/class_15_-_Corp_Strategy_Acquisitions_etc_cs.pptx')
-
+		key = bucket.get_key('media/files/class_15_-_Corp_Strategy_Acquisitions_etc_cs.pptx')
 
 
 		response_headers = {
@@ -113,9 +112,7 @@ def downloadpage(request, purchaseuuid):
 			'response-content-disposition':'attachment;filename="%s"'%product.name
 		}
 
-		url = s3_file_path.generate_url(600, 'GET',
-			bucket=settings.AWS_STORAGE_BUCKET_NAME,
-			key=filepath,
+		url = key.generate_url(600, 'GET',
 			response_headers=response_headers,
 			force_http=True)
 
