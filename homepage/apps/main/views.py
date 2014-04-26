@@ -118,7 +118,7 @@ if settings.PRODUCTION:
 		response_headers=response_headers,
 		force_http=True)
 
-	return http.HttpResponseRedirect(url)
+	return HttpResponseRedirect(url)
 
 
 	# the_file = os.path.normpath(settings.STORAGE_ROOT + product.product_file.url)
