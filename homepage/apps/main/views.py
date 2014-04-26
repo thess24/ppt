@@ -104,7 +104,7 @@ def downloadpage(request, purchaseuuid):
 
 		conn = boto.connect_s3(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
 		bucket = conn.get_bucket(settings.AWS_STORAGE_BUCKET_NAME)
-		s3_file_path = bucket.get_key('https://deckruler.s3.amazonaws.com/media/files/class_15_-_Corp_Strategy_Acquisitions_etc_cs.pptx')
+		s3_file_path = bucket.get_key('media/files/class_15_-_Corp_Strategy_Acquisitions_etc_cs.pptx')
 
 
 
