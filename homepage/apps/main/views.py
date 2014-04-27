@@ -106,19 +106,17 @@ def downloadpage(request, purchaseuuid):
 		bucket = conn.get_bucket(settings.AWS_STORAGE_BUCKET_NAME)
 		key = bucket.get_key('media/files/class_15_-_Corp_Strategy_Acquisitions_etc_cs.pptx')
 
-		# response_headers = {
-		# 	'response-content-type': 'application/force-download',
-		# 	'response-content-disposition':'attachment;filename="%s"'%product.name
-		# }
 
-		# url = key.generate_url(600, 'GET',
-		# 	# response_headers=response_headers,
-		# 	)
-		url = key.generate_url(600, 'GET')
+		response_headers = {
+			'response-content-type': 'application/force-download',
+			'response-content-disposition':'attachment;filename="%s"'%product.name
+		}
 
-		context = {'category':url}
-		return render(request, 'main/category.html', context)
-		# return HttpResponseRedirect(url)
+		url = key.generate_url(600, 'GET',
+			response_headers=response_headers,
+			)
+
+		return HttpResponseRedirect(url)
 
 
 		# the_file = os.path.normpath(settings.STORAGE_ROOT + product.product_file.url)
