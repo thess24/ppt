@@ -100,12 +100,18 @@ def downloadpage(request, purchaseuuid):
 	"""
 	# Production
 	if settings.PRODUCTION:
+		# url generates full path (https://deckruler...)
+		# we only want path once in aws (media/files/file.ppt)
 		filepath = product.product_file.url
+		stringstart = filepath.find('/',8)
+		stringstart = stringstart+1
+		filepath = filepath[stringstart:]  
 
+		# connect to boto, get bucket, get key(string of file loc), and generate url to dl for ceratin 
+		# period of time
 		conn = boto.connect_s3(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
 		bucket = conn.get_bucket(settings.AWS_STORAGE_BUCKET_NAME)
-		key = bucket.get_key('media/files/class_15_-_Corp_Strategy_Acquisitions_etc_cs.pptx')
-
+		key = bucket.get_key(filepath)
 
 		response_headers = {
 			'response-content-type': 'application/force-download',
@@ -119,15 +125,6 @@ def downloadpage(request, purchaseuuid):
 		return HttpResponseRedirect(url)
 
 
-		# the_file = os.path.normpath(settings.STORAGE_ROOT + product.product_file.url)
-		# the_file = product.product_file.url
-		# # filename = os.path.basename(the_file)
-		# filename = os.path.basename(product.product_file.url)
-		# response = HttpResponse(FileWrapper(open(the_file)),
-		# 					content_type=mimetypes.guess_type(the_file)[0])
-		# response['Content-Length'] = os.path.getsize(the_file)    
-		# response['Content-Disposition'] = "attachment; filename=%s" % filename
-		# return response
 	else:
 	# Development    
 		the_file = product.product_file.path                            
