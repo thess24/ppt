@@ -78,7 +78,7 @@ def editproduct(request, productid):
 def purchases(request):
 	purchases = Purchase.objects.filter(user=request.user)
 
-	context= {'products':purchases}
+	context= {'purchases':purchases}
 	return render(request, 'main/purchases.html', context)
 
 def downloadpage(request, purchaseuuid):

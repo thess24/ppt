@@ -22,10 +22,114 @@
 
 
         <div class='row'>
+        <div class='col-md-9'>
+
+					<div class="panel-group" id="accordion">
+					  <div class="panel panel-default">
+					    <div class="panel-heading">
+					      <h4 class="panel-title">
+					        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+					          How long does it take to start selling?
+					        </a>
+					      </h4>
+					    </div>
+					    <div id="collapseOne" class="panel-collapse collapse">
+					      <div class="panel-body">
+					        If you already have a Stripe account (our payment processor) it only takes about 5 minutes!  Setting up a Stripe account takes another 5 minutes and only has to be done once. 
+					      </div>
+					    </div>
+					  </div>
+					  <div class="panel panel-default">
+					    <div class="panel-heading">
+					      <h4 class="panel-title">
+					        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+					          How does buying work?
+					        </a>
+					      </h4>
+					    </div>
+					    <div id="collapseTwo" class="panel-collapse collapse">
+					      <div class="panel-body">
+					        You do not need an account to buy.  Simply click "Buy" on the purchase page, enter your billing information, and download.  You will recieve an email with a link to your purchase that can be used 5 times.  If you do create an account, we keep track of your purchases for you so you do not need to save the email.  The entire site is secured with business grade SSL encryption and because of our excellent payment processor, Stripe, we never even see your payment data.
+					      </div>
+					    </div>
+					  </div>
+					  <div class="panel panel-default">
+					    <div class="panel-heading">
+					      <h4 class="panel-title">
+					        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+					          When is the site updated?
+					        </a>
+					      </h4>
+					    </div>
+					    <div id="collapseThree" class="panel-collapse collapse">
+					      <div class="panel-body">
+					        Every day!  When someone submits new content it will be reviewed and put online the next day.
+					      </div>
+					    </div>
+					  </div>
+					  <div class="panel panel-default">
+					    <div class="panel-heading">
+					      <h4 class="panel-title">
+					        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+					          How do I get paid?
+					        </a>
+					      </h4>
+					    </div>
+					    <div id="collapseFour" class="panel-collapse collapse">
+					      <div class="panel-body">
+					        Stripe, the payment processor, collects payments from customers and distributes the funds on a rolling weekly basis.  This means you get paid one week after the customer buys your product. You make 70% of each sale after card processing fees!
+					      </div>
+					    </div>
+					  </div>
+					  <div class="panel panel-default">
+					    <div class="panel-heading">
+					      <h4 class="panel-title">
+					        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+					          How much should I sell my presentation/items for?
+					        </a>
+					      </h4>
+					    </div>
+					    <div id="collapseFive" class="panel-collapse collapse">
+					      <div class="panel-body">
+					        It is recommended to sell for at least $10-$15 USD.
+					      </div>
+					    </div>
+					  </div>
+					  <div class="panel panel-default">
+					    <div class="panel-heading">
+					      <h4 class="panel-title">
+					        <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">
+					          Why should I get an account?
+					        </a>
+					      </h4>
+					    </div>
+					    <div id="collapseSix" class="panel-collapse collapse">
+					      <div class="panel-body">
+					        Getting an account lets you save your files for easier access!  You do not need an account to buy.
+					      </div>
+					    </div>
+					  </div>
 
 
+					</div>
+        	</div><!--end col md 9-->
 
-        </div>
+	        <div class='col-md-3'>
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                   <a href="{% url 'howsellingworks' %}">Why Sell With Us?</a>
+                  </div>
+                </div>
+
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                   <a href="{% url 'howbuyingworks' %}">Buying</a>
+                  </div>
+                </div>
+	        </div> <!--end col md 3-->
+
+
+        </div><!--end row-->
 
 
 {% endblock %}

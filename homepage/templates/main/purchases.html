@@ -23,23 +23,25 @@
 
         <div class='row'>
 
-            {% for p in products %}
-            <div class='col-md-3'>
-              <div class='well productwindow'>
-                    <div class='imgbox'>
-                      <img src="{{MEDIA_URL}}{{p.product.image}}" width="100%">
-                      <button class= 'viewbtn' style='display:none'>
-                        <a href="{% url 'productpage' p.product.id %}"><span class='glyphicon glyphicon-share'></span> View</a>
-                      </button>
+            {% for p in purchases %}
+                <div class="col-sm-6 col-md-4">
+                  <div class="thumbnail">
+                    <img src="{{MEDIA_URL}}{{p.product.image}}" alt="...">
+                    <div class="caption">
+                      <h3  style='margin:0'>{{p.product.name}}</h3>
+                      <p style='font-size:.8em'>{{p.sale_date}}</p>
+              
+                      {% if p.active_to_download %}
+                        <p style='margin:0'><a href="{% url 'downloadpage' p.uuid %}" class="btn btn-primary" role="button"><span class='glyphicon glyphicon-cloud-download'></span> Download</a>
+                        <span style='font-size:1.2em'>{{p.downloads}}</span> Downloads Remaining
+                        </p>
+                        
+                      {% else %}
+                        <p>No downloads remaining</p>
+                      {% endif %}
                     </div>
-                    <div class='imgboxlower'>
-                      <h4>
-                      <a href="{% url 'productpage' p.product.id %}">{{p.product.name|capfirst}}</a>
-                      </h4>
-                      <span class='windowprice'>${{p.product.price}}</span>
-                    </div>
-              </div>
-            </div>
+                  </div>
+                </div>
             {% empty %}
             <h4>You haven't made any purchases yet</h4>
             <div>Click <a href="/">here to go to the hompage</a> or search above </div>
