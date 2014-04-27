@@ -27,18 +27,16 @@
             <div class='col-md-3'>
               <div class='well productwindow'>
                     <div class='imgbox'>
-                      <img src="{{MEDIA_URL}}{{p.image}}" width="100%">
-                      {% if p.featured%}<span class='banner' style='background-color: rgb(200, 0, 0)'>Featured!</span>{% endif %}
-                      {% if p.popular%}<span class='banner' style='background-color: rgb(0, 120, 200)'>Popular!</span>{% endif %}
-                      {% if p.new%}<span class='banner' style='background-color: rgb(0, 200, 40)'>New!</span>{% endif %}
-                      <button class= 'btn viewbtn' style='display:none'><a href="">View</a></button>
+                      <img src="{{MEDIA_URL}}{{p.product.image}}" width="100%">
+                      <button class= 'viewbtn' style='display:none'>
+                        <a href="{% url 'productpage' p.product.id %}"><span class='glyphicon glyphicon-share'></span> View</a>
+                      </button>
                     </div>
                     <div class='imgboxlower'>
                       <h4>
-                      <a href="{% url 'productpage' p.id %}">{{p.name|capfirst}}</a>
+                      <a href="{% url 'productpage' p.product.id %}">{{p.product.name|capfirst}}</a>
                       </h4>
-                      <span class='windowprice'>${{p.price}}</span>
-                      <span style='margin-left:10px'><a href="{% url 'category' p.category %}">{{p.category}}</a></span>
+                      <span class='windowprice'>${{p.product.price}}</span>
                     </div>
               </div>
             </div>

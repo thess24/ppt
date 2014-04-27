@@ -23,14 +23,14 @@
 
 
         <div class='row'>
-              Congrats on the purchase!  You can download the file below.  An email will also be sent to the provided address with a link to download.  This link will work for 5 downloads.
+              Congrats on the purchase!  You can download the file below.  An email will also be sent to the provided address with a link to download.  This link will work for {{purchase.downloads}} more downloads.
 
               <div>Email: {{purchase.email}}</div>
               <div>Product: {{purchase.product.name}}</div>
               <div>Price: ${{purchase.product.price}}</div>
 
               <div>The download my take a few seconds to get started, please be patient!</div>
-              <a href="{% url 'downloadpage' purchase.uuid %}" class='btn btn-primary'>
+              <a href="{% url 'downloadpage' purchase.uuid %}" class='btn btn-primary btn-lg' style='margin:20px'>
                 <span class='glyphicon glyphicon-cloud-download'></span> Download Now!
               </a>
               

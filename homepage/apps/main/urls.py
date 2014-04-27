@@ -9,6 +9,7 @@ urlpatterns = patterns('',
 	url(r'^product/(?P<productid>.+)/edit/$', views.editproduct, name='editproduct'),
 	url(r'^product/(?P<productid>.+)/$', views.productpage, name='productpage'),
 	url(r'^download/(?P<purchaseuuid>.+)/$', views.downloadpage, name='downloadpage'),
+	url(r'^dlstage/(?P<purchaseuuid>.+)/$', views.dlstage, name='dlstage'),
 	url(r'^purchases/$', views.purchases, name='purchases'),
 	url(r'^charge/$', views.charge, name='charge'),
 	url(r'^upload/$', views.upload, name='upload'),
@@ -44,7 +45,7 @@ urlpatterns = patterns('',
 # make frontpage look better
 # write what im looking for in terms of items to sell
 # faq
-# ability to serve files from s3
+# change purchases area
 
 
 

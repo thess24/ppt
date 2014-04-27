@@ -78,7 +78,7 @@ def editproduct(request, productid):
 def purchases(request):
 	purchases = Purchase.objects.filter(user=request.user)
 
-	context= {'purchases':purchases}
+	context= {'products':purchases}
 	return render(request, 'main/purchases.html', context)
 
 def downloadpage(request, purchaseuuid):
@@ -360,6 +360,12 @@ def deleteimage(request, imageid):
 	image.delete()
 
 	return HttpResponse('')
+
+def dlstage(request, purchaseuuid):
+	purchase = Purchase.objects.get(uuid=purchaseuuid)
+
+	context = {'purchase': purchase}
+	return render(request, 'main/dlstage.html', context)	
 
 def howbuyingworks(request):
 	return render(request, 'main/howbuyingworks.html')	
